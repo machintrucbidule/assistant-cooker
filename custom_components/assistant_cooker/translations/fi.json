@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Määritä Assistant Cooker",
+        "description": "Asenna ruoanlaittoantury",
+        "data": {
+          "name": "Laitteen nimi",
+          "probe_sensor": "Anturin lämpötila-anturi (pakollinen)",
+          "ambient_sensor": "Ympäristön lämpötila-anturi",
+          "battery_sensor": "Akkuanturi",
+          "rssi_sensor": "Signaalivoimakkuusanturi (RSSI)",
+          "notify_mobile": "Mobiili-ilmoitus",
+          "notify_ha": "Home Assistant pysyvä ilmoitus",
+          "notify_voice": "Ääni-ilmoitus (Alexa, Google...)",
+          "notify_5min_before": "Ilmoita 5 minuuttia ennen valmistumista",
+          "notify_disconnect": "Ilmoita jos anturi irtoaa"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Anturia ei löydy" },
+    "abort": { "already_configured": "Laite on jo määritetty" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Määritä Assistant Cooker",
+        "data": {
+          "name": "Laitteen nimi",
+          "probe_sensor": "Anturin lämpötila-anturi (pakollinen)",
+          "ambient_sensor": "Ympäristön lämpötila-anturi",
+          "battery_sensor": "Akkuanturi",
+          "rssi_sensor": "Signaalivoimakkuusanturi (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Tila" },
+      "probe_temp": { "name": "Anturin lämpötila" },
+      "ambient_temp": { "name": "Ympäristön lämpötila" },
+      "target_temp": { "name": "Tavoitelämpötila" },
+      "start_time": { "name": "Aloitusaika" },
+      "estimated_end": { "name": "Arvioitu lopetusaika" },
+      "remaining_time": { "name": "Jäljellä oleva aika" },
+      "progress": { "name": "Edistyminen" },
+      "heating_rate": { "name": "Lämmitysnopeus" },
+      "battery": { "name": "Akku" },
+      "rssi": { "name": "Signaalivoimakkuus" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Anturi yhdistetty" } },
+    "switch": { "carryover_compensation": { "name": "Lämpökompensointi" } }
+  }
+}

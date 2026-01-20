@@ -1,0 +1,87 @@
+start_cooking:
+  name: Start Cooking
+  description: Start the cooking session
+  fields:
+    entity_id:
+      name: Entity
+      description: The Assistant Cooker state entity
+      required: true
+      selector:
+        entity:
+          integration: assistant_cooker
+
+stop_cooking:
+  name: Stop Cooking
+  description: Stop the cooking session and return to idle state
+  fields:
+    entity_id:
+      name: Entity
+      description: The Assistant Cooker state entity
+      required: true
+      selector:
+        entity:
+          integration: assistant_cooker
+
+set_target_temp:
+  name: Set Target Temperature
+  description: Set the target cooking temperature (switches to manual mode)
+  fields:
+    entity_id:
+      name: Entity
+      description: The Assistant Cooker state entity
+      required: true
+      selector:
+        entity:
+          integration: assistant_cooker
+    temperature:
+      name: Temperature
+      description: Target temperature in degrees
+      required: true
+      selector:
+        number:
+          min: 30
+          max: 100
+          step: 1
+          unit_of_measurement: "°C"
+
+set_food:
+  name: Set Food
+  description: Set the food type and doneness level
+  fields:
+    entity_id:
+      name: Entity
+      description: The Assistant Cooker state entity
+      required: true
+      selector:
+        entity:
+          integration: assistant_cooker
+    food_type:
+      name: Food Type
+      description: Food type in format category_food (e.g., beef_steak, pork_chop, poultry_chicken_breast)
+      required: true
+      selector:
+        text:
+    doneness:
+      name: Doneness
+      description: Doneness level (rare, medium, well_done, etc.)
+      required: true
+      selector:
+        text:
+
+set_carryover:
+  name: Set Carryover Compensation
+  description: Enable or disable carryover compensation
+  fields:
+    entity_id:
+      name: Entity
+      description: The Assistant Cooker state entity
+      required: true
+      selector:
+        entity:
+          integration: assistant_cooker
+    enabled:
+      name: Enabled
+      description: Whether to enable carryover compensation
+      required: true
+      selector:
+        boolean:

@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurar Assistant Cooker",
+        "description": "Configura tu sonda de cocción",
+        "data": {
+          "name": "Nombre del dispositivo",
+          "probe_sensor": "Sensor de temperatura de la sonda (requerido)",
+          "ambient_sensor": "Sensor de temperatura ambiente",
+          "battery_sensor": "Sensor de batería",
+          "rssi_sensor": "Sensor de intensidad de señal (RSSI)",
+          "notify_mobile": "Notificación móvil",
+          "notify_ha": "Notificación persistente de Home Assistant",
+          "notify_voice": "Notificación de voz (Alexa, Google...)",
+          "notify_5min_before": "Notificar 5 minutos antes de terminar",
+          "notify_disconnect": "Notificar si la sonda se desconecta"
+        },
+        "data_description": {
+          "probe_sensor": "El sensor de temperatura de tu sonda (temperatura del núcleo)",
+          "ambient_sensor": "El sensor de temperatura ambiente/horno de tu sonda (si está disponible)",
+          "battery_sensor": "Sensor de nivel de batería de tu sonda (si está disponible)",
+          "rssi_sensor": "Sensor de intensidad de señal para detección de conexión (si está disponible)",
+          "notify_mobile": "Selecciona el dispositivo móvil para notificaciones",
+          "notify_ha": "Mostrar notificación persistente en Home Assistant",
+          "notify_voice": "Selecciona el dispositivo para anuncios de voz",
+          "notify_5min_before": "Enviar notificación 5 minutos antes de que termine la cocción",
+          "notify_disconnect": "Enviar notificación si la sonda se desconecta durante la cocción"
+        }
+      }
+    },
+    "error": {
+      "sensor_not_found": "Sensor no encontrado"
+    },
+    "abort": {
+      "already_configured": "Dispositivo ya configurado"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configurar Assistant Cooker",
+        "data": {
+          "name": "Nombre del dispositivo",
+          "probe_sensor": "Sensor de temperatura de la sonda (requerido)",
+          "ambient_sensor": "Sensor de temperatura ambiente",
+          "battery_sensor": "Sensor de batería",
+          "rssi_sensor": "Sensor de intensidad de señal (RSSI)",
+          "notify_mobile": "Servicio de notificación móvil",
+          "notify_ha": "Servicio de notificación de Home Assistant",
+          "notify_voice": "Servicio de notificación de voz (Alexa, etc.)",
+          "notify_5min_before": "Notificar 5 minutos antes de terminar",
+          "notify_disconnect": "Notificar si la sonda se desconecta"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Estado" },
+      "probe_temp": { "name": "Temperatura de la sonda" },
+      "ambient_temp": { "name": "Temperatura ambiente" },
+      "target_temp": { "name": "Temperatura objetivo" },
+      "start_time": { "name": "Hora de inicio" },
+      "start_probe_temp": { "name": "Temperatura inicial de la sonda" },
+      "start_ambient_temp": { "name": "Temperatura ambiente inicial" },
+      "estimated_end": { "name": "Hora estimada de finalización" },
+      "remaining_time": { "name": "Tiempo restante" },
+      "progress": { "name": "Progreso" },
+      "heating_rate": { "name": "Tasa de calentamiento" },
+      "food_type": { "name": "Tipo de alimento" },
+      "doneness": { "name": "Punto de cocción" },
+      "battery": { "name": "Batería" },
+      "rssi": { "name": "Intensidad de señal" },
+      "disconnect_duration": { "name": "Duración de desconexión" }
+    },
+    "binary_sensor": {
+      "probe_connected": { "name": "Sonda conectada" }
+    },
+    "switch": {
+      "carryover_compensation": { "name": "Compensación por arrastre térmico" }
+    }
+  }
+}

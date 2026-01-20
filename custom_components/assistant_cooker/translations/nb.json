@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfigurer Assistant Cooker",
+        "description": "Sett opp matlagingsproben din",
+        "data": {
+          "name": "Enhetsnavn",
+          "probe_sensor": "Probetemperatursensor (påkrevd)",
+          "ambient_sensor": "Omgivelsestemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)",
+          "notify_mobile": "Mobilvarsel",
+          "notify_ha": "Home Assistant vedvarende varsel",
+          "notify_voice": "Stemmevarsel (Alexa, Google...)",
+          "notify_5min_before": "Varsle 5 minutter før ferdig",
+          "notify_disconnect": "Varsle hvis proben kobles fra"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensor ikke funnet" },
+    "abort": { "already_configured": "Enheten er allerede konfigurert" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Konfigurer Assistant Cooker",
+        "data": {
+          "name": "Enhetsnavn",
+          "probe_sensor": "Probetemperatursensor (påkrevd)",
+          "ambient_sensor": "Omgivelsestemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Status" },
+      "probe_temp": { "name": "Probetemperatur" },
+      "ambient_temp": { "name": "Omgivelsestemperatur" },
+      "target_temp": { "name": "Måltemperatur" },
+      "start_time": { "name": "Starttid" },
+      "estimated_end": { "name": "Estimert sluttid" },
+      "remaining_time": { "name": "Gjenstående tid" },
+      "progress": { "name": "Fremgang" },
+      "heating_rate": { "name": "Oppvarmingshastighet" },
+      "battery": { "name": "Batteri" },
+      "rssi": { "name": "Signalstyrke" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Probe tilkoblet" } },
+    "switch": { "carryover_compensation": { "name": "Termisk kompensasjon" } }
+  }
+}

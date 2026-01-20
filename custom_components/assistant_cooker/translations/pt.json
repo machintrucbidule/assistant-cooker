@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurar Assistant Cooker",
+        "description": "Configure a sua sonda de cozimento",
+        "data": {
+          "name": "Nome do dispositivo",
+          "probe_sensor": "Sensor de temperatura da sonda (obrigatório)",
+          "ambient_sensor": "Sensor de temperatura ambiente",
+          "battery_sensor": "Sensor de bateria",
+          "rssi_sensor": "Sensor de intensidade de sinal (RSSI)",
+          "notify_mobile": "Notificação móvel",
+          "notify_ha": "Notificação persistente do Home Assistant",
+          "notify_voice": "Notificação por voz (Alexa, Google...)",
+          "notify_5min_before": "Notificar 5 minutos antes de terminar",
+          "notify_disconnect": "Notificar se a sonda desconectar"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensor não encontrado" },
+    "abort": { "already_configured": "Dispositivo já configurado" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configurar Assistant Cooker",
+        "data": {
+          "name": "Nome do dispositivo",
+          "probe_sensor": "Sensor de temperatura da sonda (obrigatório)",
+          "ambient_sensor": "Sensor de temperatura ambiente",
+          "battery_sensor": "Sensor de bateria",
+          "rssi_sensor": "Sensor de intensidade de sinal (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Estado" },
+      "probe_temp": { "name": "Temperatura da sonda" },
+      "ambient_temp": { "name": "Temperatura ambiente" },
+      "target_temp": { "name": "Temperatura alvo" },
+      "start_time": { "name": "Hora de início" },
+      "estimated_end": { "name": "Fim estimado" },
+      "remaining_time": { "name": "Tempo restante" },
+      "progress": { "name": "Progresso" },
+      "heating_rate": { "name": "Taxa de aquecimento" },
+      "battery": { "name": "Bateria" },
+      "rssi": { "name": "Intensidade do sinal" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Sonda conectada" } },
+    "switch": { "carryover_compensation": { "name": "Compensação de calor residual" } }
+  }
+}

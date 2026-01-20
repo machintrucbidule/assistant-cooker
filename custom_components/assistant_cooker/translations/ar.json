@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "تكوين Assistant Cooker",
+        "description": "إعداد مسبار الطهي",
+        "data": {
+          "name": "اسم الجهاز",
+          "probe_sensor": "مستشعر درجة حرارة المسبار (مطلوب)",
+          "ambient_sensor": "مستشعر درجة الحرارة المحيطة",
+          "battery_sensor": "مستشعر البطارية",
+          "rssi_sensor": "مستشعر قوة الإشارة (RSSI)",
+          "notify_mobile": "إشعار الهاتف",
+          "notify_ha": "إشعار Home Assistant المستمر",
+          "notify_voice": "إشعار صوتي (Alexa، Google...)",
+          "notify_5min_before": "إشعار قبل 5 دقائق من الانتهاء",
+          "notify_disconnect": "إشعار عند فصل المسبار"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "المستشعر غير موجود" },
+    "abort": { "already_configured": "الجهاز مُكوَّن بالفعل" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "تكوين Assistant Cooker",
+        "data": {
+          "name": "اسم الجهاز",
+          "probe_sensor": "مستشعر درجة حرارة المسبار (مطلوب)",
+          "ambient_sensor": "مستشعر درجة الحرارة المحيطة",
+          "battery_sensor": "مستشعر البطارية",
+          "rssi_sensor": "مستشعر قوة الإشارة (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "الحالة" },
+      "probe_temp": { "name": "درجة حرارة المسبار" },
+      "ambient_temp": { "name": "درجة الحرارة المحيطة" },
+      "target_temp": { "name": "درجة الحرارة المستهدفة" },
+      "start_time": { "name": "وقت البدء" },
+      "estimated_end": { "name": "وقت الانتهاء المتوقع" },
+      "remaining_time": { "name": "الوقت المتبقي" },
+      "progress": { "name": "التقدم" },
+      "heating_rate": { "name": "معدل التسخين" },
+      "battery": { "name": "البطارية" },
+      "rssi": { "name": "قوة الإشارة" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "المسبار متصل" } },
+    "switch": { "carryover_compensation": { "name": "التعويض الحراري" } }
+  }
+}

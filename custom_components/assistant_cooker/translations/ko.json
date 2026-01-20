@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cooker 구성",
+        "description": "조리 프로브 설정",
+        "data": {
+          "name": "장치 이름",
+          "probe_sensor": "프로브 온도 센서 (필수)",
+          "ambient_sensor": "주변 온도 센서",
+          "battery_sensor": "배터리 센서",
+          "rssi_sensor": "신호 강도 센서 (RSSI)",
+          "notify_mobile": "모바일 알림",
+          "notify_ha": "Home Assistant 지속 알림",
+          "notify_voice": "음성 알림 (Alexa, Google...)",
+          "notify_5min_before": "완료 5분 전 알림",
+          "notify_disconnect": "프로브 연결 끊김 시 알림"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "센서를 찾을 수 없음" },
+    "abort": { "already_configured": "장치가 이미 구성됨" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cooker 구성",
+        "data": {
+          "name": "장치 이름",
+          "probe_sensor": "프로브 온도 센서 (필수)",
+          "ambient_sensor": "주변 온도 센서",
+          "battery_sensor": "배터리 센서",
+          "rssi_sensor": "신호 강도 센서 (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "상태" },
+      "probe_temp": { "name": "프로브 온도" },
+      "ambient_temp": { "name": "주변 온도" },
+      "target_temp": { "name": "목표 온도" },
+      "start_time": { "name": "시작 시간" },
+      "estimated_end": { "name": "예상 종료 시간" },
+      "remaining_time": { "name": "남은 시간" },
+      "progress": { "name": "진행률" },
+      "heating_rate": { "name": "가열 속도" },
+      "battery": { "name": "배터리" },
+      "rssi": { "name": "신호 강도" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "프로브 연결됨" } },
+    "switch": { "carryover_compensation": { "name": "열 보정" } }
+  }
+}

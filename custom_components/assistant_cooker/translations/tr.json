@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cooker'ı Yapılandır",
+        "description": "Pişirme probunuzu ayarlayın",
+        "data": {
+          "name": "Cihaz adı",
+          "probe_sensor": "Prob sıcaklık sensörü (gerekli)",
+          "ambient_sensor": "Ortam sıcaklığı sensörü",
+          "battery_sensor": "Pil sensörü",
+          "rssi_sensor": "Sinyal gücü sensörü (RSSI)",
+          "notify_mobile": "Mobil bildirim",
+          "notify_ha": "Home Assistant kalıcı bildirimi",
+          "notify_voice": "Sesli bildirim (Alexa, Google...)",
+          "notify_5min_before": "Bitmeden 5 dakika önce bildir",
+          "notify_disconnect": "Prob bağlantısı kesilirse bildir"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensör bulunamadı" },
+    "abort": { "already_configured": "Cihaz zaten yapılandırılmış" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cooker'ı Yapılandır",
+        "data": {
+          "name": "Cihaz adı",
+          "probe_sensor": "Prob sıcaklık sensörü (gerekli)",
+          "ambient_sensor": "Ortam sıcaklığı sensörü",
+          "battery_sensor": "Pil sensörü",
+          "rssi_sensor": "Sinyal gücü sensörü (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Durum" },
+      "probe_temp": { "name": "Prob Sıcaklığı" },
+      "ambient_temp": { "name": "Ortam Sıcaklığı" },
+      "target_temp": { "name": "Hedef Sıcaklık" },
+      "start_time": { "name": "Başlangıç Zamanı" },
+      "estimated_end": { "name": "Tahmini Bitiş Zamanı" },
+      "remaining_time": { "name": "Kalan Süre" },
+      "progress": { "name": "İlerleme" },
+      "heating_rate": { "name": "Isıtma Hızı" },
+      "battery": { "name": "Pil" },
+      "rssi": { "name": "Sinyal Gücü" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Prob Bağlı" } },
+    "switch": { "carryover_compensation": { "name": "Termal Telafi" } }
+  }
+}

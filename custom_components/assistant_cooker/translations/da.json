@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfigurer Assistant Cooker",
+        "description": "Opsæt din madlavningsprobe",
+        "data": {
+          "name": "Enhedsnavn",
+          "probe_sensor": "Probetemperatursensor (påkrævet)",
+          "ambient_sensor": "Omgivelsestemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)",
+          "notify_mobile": "Mobilnotifikation",
+          "notify_ha": "Home Assistant vedvarende notifikation",
+          "notify_voice": "Stemmenotifikation (Alexa, Google...)",
+          "notify_5min_before": "Notificer 5 minutter før færdig",
+          "notify_disconnect": "Notificer hvis proben afbrydes"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensor ikke fundet" },
+    "abort": { "already_configured": "Enheden er allerede konfigureret" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Konfigurer Assistant Cooker",
+        "data": {
+          "name": "Enhedsnavn",
+          "probe_sensor": "Probetemperatursensor (påkrævet)",
+          "ambient_sensor": "Omgivelsestemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Status" },
+      "probe_temp": { "name": "Probetemperatur" },
+      "ambient_temp": { "name": "Omgivelsestemperatur" },
+      "target_temp": { "name": "Måltemperatur" },
+      "start_time": { "name": "Starttidspunkt" },
+      "estimated_end": { "name": "Estimeret sluttidspunkt" },
+      "remaining_time": { "name": "Resterende tid" },
+      "progress": { "name": "Fremskridt" },
+      "heating_rate": { "name": "Opvarmningshastighed" },
+      "battery": { "name": "Batteri" },
+      "rssi": { "name": "Signalstyrke" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Probe tilsluttet" } },
+    "switch": { "carryover_compensation": { "name": "Termisk kompensation" } }
+  }
+}

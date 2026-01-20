@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cooker कॉन्फ़िगर करें",
+        "description": "अपना कुकिंग प्रोब सेट करें",
+        "data": {
+          "name": "डिवाइस का नाम",
+          "probe_sensor": "प्रोब तापमान सेंसर (आवश्यक)",
+          "ambient_sensor": "परिवेश तापमान सेंसर",
+          "battery_sensor": "बैटरी सेंसर",
+          "rssi_sensor": "सिग्नल स्ट्रेंथ सेंसर (RSSI)",
+          "notify_mobile": "मोबाइल नोटिफिकेशन",
+          "notify_ha": "Home Assistant स्थायी नोटिफिकेशन",
+          "notify_voice": "वॉइस नोटिफिकेशन (Alexa, Google...)",
+          "notify_5min_before": "समाप्त होने से 5 मिनट पहले सूचित करें",
+          "notify_disconnect": "प्रोब डिस्कनेक्ट होने पर सूचित करें"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "सेंसर नहीं मिला" },
+    "abort": { "already_configured": "डिवाइस पहले से कॉन्फ़िगर है" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cooker कॉन्फ़िगर करें",
+        "data": {
+          "name": "डिवाइस का नाम",
+          "probe_sensor": "प्रोब तापमान सेंसर (आवश्यक)",
+          "ambient_sensor": "परिवेश तापमान सेंसर",
+          "battery_sensor": "बैटरी सेंसर",
+          "rssi_sensor": "सिग्नल स्ट्रेंथ सेंसर (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "स्थिति" },
+      "probe_temp": { "name": "प्रोब तापमान" },
+      "ambient_temp": { "name": "परिवेश तापमान" },
+      "target_temp": { "name": "लक्ष्य तापमान" },
+      "start_time": { "name": "शुरू समय" },
+      "estimated_end": { "name": "अनुमानित समाप्ति समय" },
+      "remaining_time": { "name": "शेष समय" },
+      "progress": { "name": "प्रगति" },
+      "heating_rate": { "name": "हीटिंग दर" },
+      "battery": { "name": "बैटरी" },
+      "rssi": { "name": "सिग्नल स्ट्रेंथ" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "प्रोब कनेक्टेड" } },
+    "switch": { "carryover_compensation": { "name": "तापीय क्षतिपूर्ति" } }
+  }
+}

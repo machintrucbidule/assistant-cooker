@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfiguruj Assistant Cooker",
+        "description": "Skonfiguruj sondę do gotowania",
+        "data": {
+          "name": "Nazwa urządzenia",
+          "probe_sensor": "Czujnik temperatury sondy (wymagany)",
+          "ambient_sensor": "Czujnik temperatury otoczenia",
+          "battery_sensor": "Czujnik baterii",
+          "rssi_sensor": "Czujnik siły sygnału (RSSI)",
+          "notify_mobile": "Powiadomienie mobilne",
+          "notify_ha": "Trwałe powiadomienie Home Assistant",
+          "notify_voice": "Powiadomienie głosowe (Alexa, Google...)",
+          "notify_5min_before": "Powiadom 5 minut przed końcem",
+          "notify_disconnect": "Powiadom o rozłączeniu sondy"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Nie znaleziono czujnika" },
+    "abort": { "already_configured": "Urządzenie już skonfigurowane" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Konfiguruj Assistant Cooker",
+        "data": {
+          "name": "Nazwa urządzenia",
+          "probe_sensor": "Czujnik temperatury sondy (wymagany)",
+          "ambient_sensor": "Czujnik temperatury otoczenia",
+          "battery_sensor": "Czujnik baterii",
+          "rssi_sensor": "Czujnik siły sygnału (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Stan" },
+      "probe_temp": { "name": "Temperatura sondy" },
+      "ambient_temp": { "name": "Temperatura otoczenia" },
+      "target_temp": { "name": "Temperatura docelowa" },
+      "start_time": { "name": "Czas rozpoczęcia" },
+      "estimated_end": { "name": "Szacowany koniec" },
+      "remaining_time": { "name": "Pozostały czas" },
+      "progress": { "name": "Postęp" },
+      "heating_rate": { "name": "Szybkość nagrzewania" },
+      "battery": { "name": "Bateria" },
+      "rssi": { "name": "Siła sygnału" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Sonda podłączona" } },
+    "switch": { "carryover_compensation": { "name": "Kompensacja ciepła resztkowego" } }
+  }
+}

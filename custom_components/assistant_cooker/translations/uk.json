@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Налаштування Assistant Cooker",
+        "description": "Налаштуйте свій зонд для приготування",
+        "data": {
+          "name": "Назва пристрою",
+          "probe_sensor": "Датчик температури зонда (обов'язково)",
+          "ambient_sensor": "Датчик температури навколишнього середовища",
+          "battery_sensor": "Датчик батареї",
+          "rssi_sensor": "Датчик рівня сигналу (RSSI)",
+          "notify_mobile": "Мобільне сповіщення",
+          "notify_ha": "Постійне сповіщення Home Assistant",
+          "notify_voice": "Голосове сповіщення (Alexa, Google...)",
+          "notify_5min_before": "Сповістити за 5 хвилин до завершення",
+          "notify_disconnect": "Сповістити при відключенні зонда"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Датчик не знайдено" },
+    "abort": { "already_configured": "Пристрій вже налаштовано" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Налаштування Assistant Cooker",
+        "data": {
+          "name": "Назва пристрою",
+          "probe_sensor": "Датчик температури зонда (обов'язково)",
+          "ambient_sensor": "Датчик температури навколишнього середовища",
+          "battery_sensor": "Датчик батареї",
+          "rssi_sensor": "Датчик рівня сигналу (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Стан" },
+      "probe_temp": { "name": "Температура зонда" },
+      "ambient_temp": { "name": "Температура навколишнього середовища" },
+      "target_temp": { "name": "Цільова температура" },
+      "start_time": { "name": "Час початку" },
+      "estimated_end": { "name": "Орієнтовний час завершення" },
+      "remaining_time": { "name": "Залишок часу" },
+      "progress": { "name": "Прогрес" },
+      "heating_rate": { "name": "Швидкість нагріву" },
+      "battery": { "name": "Батарея" },
+      "rssi": { "name": "Рівень сигналу" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Зонд підключено" } },
+    "switch": { "carryover_compensation": { "name": "Термічна компенсація" } }
+  }
+}
