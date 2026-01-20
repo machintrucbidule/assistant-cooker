@@ -1,0 +1,120 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Assistant Cooker",
+        "description": "Set up your cooking probe",
+        "data": {
+          "name": "Device name",
+          "probe_sensor": "Probe temperature sensor (required)",
+          "ambient_sensor": "Ambient temperature sensor",
+          "battery_sensor": "Battery sensor",
+          "rssi_sensor": "Signal strength sensor (RSSI)",
+          "notify_mobile": "Mobile notification",
+          "notify_ha": "Home Assistant persistent notification",
+          "notify_voice": "Voice notification (Alexa, Google...)",
+          "notify_5min_before": "Notify 5 minutes before done",
+          "notify_disconnect": "Notify if probe disconnects"
+        },
+        "data_description": {
+          "probe_sensor": "The temperature sensor of your probe (core temperature)",
+          "ambient_sensor": "The ambient/oven temperature sensor of your probe (if available)",
+          "battery_sensor": "Battery level sensor of your probe (if available)",
+          "rssi_sensor": "Signal strength sensor for connection detection (if available)",
+          "notify_mobile": "Select mobile device for notifications",
+          "notify_ha": "Show persistent notification in Home Assistant",
+          "notify_voice": "Select device for voice announcements",
+          "notify_5min_before": "Send notification 5 minutes before cooking is done",
+          "notify_disconnect": "Send notification if probe disconnects during cooking"
+        }
+      }
+    },
+    "error": {
+      "sensor_not_found": "Sensor not found"
+    },
+    "abort": {
+      "already_configured": "Device already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Assistant Cooker",
+        "data": {
+          "name": "Device name",
+          "probe_sensor": "Probe temperature sensor (required)",
+          "ambient_sensor": "Ambient temperature sensor",
+          "battery_sensor": "Battery sensor",
+          "rssi_sensor": "Signal strength sensor (RSSI)",
+          "notify_mobile": "Mobile notification service",
+          "notify_ha": "Home Assistant notification service",
+          "notify_voice": "Voice notification service (Alexa, etc.)",
+          "notify_5min_before": "Notify 5 minutes before done",
+          "notify_disconnect": "Notify if probe disconnects"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "State"
+      },
+      "probe_temp": {
+        "name": "Probe Temperature"
+      },
+      "ambient_temp": {
+        "name": "Ambient Temperature"
+      },
+      "target_temp": {
+        "name": "Target Temperature"
+      },
+      "start_time": {
+        "name": "Start Time"
+      },
+      "start_probe_temp": {
+        "name": "Start Probe Temperature"
+      },
+      "start_ambient_temp": {
+        "name": "Start Ambient Temperature"
+      },
+      "estimated_end": {
+        "name": "Estimated End Time"
+      },
+      "remaining_time": {
+        "name": "Remaining Time"
+      },
+      "progress": {
+        "name": "Progress"
+      },
+      "heating_rate": {
+        "name": "Heating Rate"
+      },
+      "food_type": {
+        "name": "Food Type"
+      },
+      "doneness": {
+        "name": "Doneness"
+      },
+      "battery": {
+        "name": "Battery"
+      },
+      "rssi": {
+        "name": "Signal Strength"
+      },
+      "disconnect_duration": {
+        "name": "Disconnect Duration"
+      }
+    },
+    "binary_sensor": {
+      "probe_connected": {
+        "name": "Probe Connected"
+      }
+    },
+    "switch": {
+      "carryover_compensation": {
+        "name": "Carryover Compensation"
+      }
+    }
+  }
+}

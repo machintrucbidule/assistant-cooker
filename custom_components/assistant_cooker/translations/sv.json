@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfigurera Assistant Cooker",
+        "description": "Ställ in din matlagningsprob",
+        "data": {
+          "name": "Enhetsnamn",
+          "probe_sensor": "Probtemperatursensor (krävs)",
+          "ambient_sensor": "Omgivningstemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)",
+          "notify_mobile": "Mobilnotifiering",
+          "notify_ha": "Home Assistant beständig notifiering",
+          "notify_voice": "Röstnotifiering (Alexa, Google...)",
+          "notify_5min_before": "Notifiera 5 minuter innan klart",
+          "notify_disconnect": "Notifiera om proben kopplas bort"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensor hittades inte" },
+    "abort": { "already_configured": "Enheten är redan konfigurerad" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Konfigurera Assistant Cooker",
+        "data": {
+          "name": "Enhetsnamn",
+          "probe_sensor": "Probtemperatursensor (krävs)",
+          "ambient_sensor": "Omgivningstemperatursensor",
+          "battery_sensor": "Batterisensor",
+          "rssi_sensor": "Signalstyrkesensor (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Status" },
+      "probe_temp": { "name": "Probtemperatur" },
+      "ambient_temp": { "name": "Omgivningstemperatur" },
+      "target_temp": { "name": "Måltemperatur" },
+      "start_time": { "name": "Starttid" },
+      "estimated_end": { "name": "Beräknad sluttid" },
+      "remaining_time": { "name": "Återstående tid" },
+      "progress": { "name": "Framsteg" },
+      "heating_rate": { "name": "Uppvärmningshastighet" },
+      "battery": { "name": "Batteri" },
+      "rssi": { "name": "Signalstyrka" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Prob ansluten" } },
+    "switch": { "carryover_compensation": { "name": "Termisk kompensation" } }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cookerの設定",
+        "description": "調理プローブを設定します",
+        "data": {
+          "name": "デバイス名",
+          "probe_sensor": "プローブ温度センサー（必須）",
+          "ambient_sensor": "周囲温度センサー",
+          "battery_sensor": "バッテリーセンサー",
+          "rssi_sensor": "信号強度センサー (RSSI)",
+          "notify_mobile": "モバイル通知",
+          "notify_ha": "Home Assistant永続通知",
+          "notify_voice": "音声通知（Alexa、Google...）",
+          "notify_5min_before": "完了5分前に通知",
+          "notify_disconnect": "プローブ切断時に通知"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "センサーが見つかりません" },
+    "abort": { "already_configured": "デバイスは既に設定されています" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cookerの設定",
+        "data": {
+          "name": "デバイス名",
+          "probe_sensor": "プローブ温度センサー（必須）",
+          "ambient_sensor": "周囲温度センサー",
+          "battery_sensor": "バッテリーセンサー",
+          "rssi_sensor": "信号強度センサー (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "状態" },
+      "probe_temp": { "name": "プローブ温度" },
+      "ambient_temp": { "name": "周囲温度" },
+      "target_temp": { "name": "目標温度" },
+      "start_time": { "name": "開始時間" },
+      "estimated_end": { "name": "終了予定時間" },
+      "remaining_time": { "name": "残り時間" },
+      "progress": { "name": "進捗" },
+      "heating_rate": { "name": "加熱速度" },
+      "battery": { "name": "バッテリー" },
+      "rssi": { "name": "信号強度" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "プローブ接続済み" } },
+    "switch": { "carryover_compensation": { "name": "熱補正" } }
+  }
+}

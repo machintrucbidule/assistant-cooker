@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfigurace Assistant Cooker",
+        "description": "Nastavte svou varnou sondu",
+        "data": {
+          "name": "Název zařízení",
+          "probe_sensor": "Teplotní senzor sondy (povinný)",
+          "ambient_sensor": "Senzor okolní teploty",
+          "battery_sensor": "Senzor baterie",
+          "rssi_sensor": "Senzor síly signálu (RSSI)",
+          "notify_mobile": "Mobilní oznámení",
+          "notify_ha": "Trvalé oznámení Home Assistant",
+          "notify_voice": "Hlasové oznámení (Alexa, Google...)",
+          "notify_5min_before": "Oznámit 5 minut před dokončením",
+          "notify_disconnect": "Oznámit při odpojení sondy"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Senzor nenalezen" },
+    "abort": { "already_configured": "Zařízení je již nakonfigurováno" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Konfigurace Assistant Cooker",
+        "data": {
+          "name": "Název zařízení",
+          "probe_sensor": "Teplotní senzor sondy (povinný)",
+          "ambient_sensor": "Senzor okolní teploty",
+          "battery_sensor": "Senzor baterie",
+          "rssi_sensor": "Senzor síly signálu (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Stav" },
+      "probe_temp": { "name": "Teplota sondy" },
+      "ambient_temp": { "name": "Okolní teplota" },
+      "target_temp": { "name": "Cílová teplota" },
+      "start_time": { "name": "Čas zahájení" },
+      "estimated_end": { "name": "Odhadovaný čas dokončení" },
+      "remaining_time": { "name": "Zbývající čas" },
+      "progress": { "name": "Průběh" },
+      "heating_rate": { "name": "Rychlost ohřevu" },
+      "battery": { "name": "Baterie" },
+      "rssi": { "name": "Síla signálu" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Sonda připojena" } },
+    "switch": { "carryover_compensation": { "name": "Tepelná kompenzace" } }
+  }
+}

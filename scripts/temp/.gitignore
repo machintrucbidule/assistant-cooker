@@ -1,0 +1,4 @@
+# Temporary one-shot scripts
+# Feel free to add debug/migration scripts here during development
+*
+!.gitignore

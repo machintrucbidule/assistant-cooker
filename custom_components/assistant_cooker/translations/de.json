@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cooker konfigurieren",
+        "description": "Kochsonde einrichten",
+        "data": {
+          "name": "Gerätename",
+          "probe_sensor": "Sondentemperatursensor (erforderlich)",
+          "ambient_sensor": "Umgebungstemperatursensor",
+          "battery_sensor": "Batteriesensor",
+          "rssi_sensor": "Signalstärkesensor (RSSI)",
+          "notify_mobile": "Mobile Benachrichtigung",
+          "notify_ha": "Home Assistant persistente Benachrichtigung",
+          "notify_voice": "Sprachbenachrichtigung (Alexa, Google...)",
+          "notify_5min_before": "5 Minuten vor Fertigstellung benachrichtigen",
+          "notify_disconnect": "Bei Sondentrennung benachrichtigen"
+        },
+        "data_description": {
+          "probe_sensor": "Der Temperatursensor Ihrer Sonde (Kerntemperatur)",
+          "ambient_sensor": "Der Umgebungs-/Ofentemperatursensor Ihrer Sonde (falls verfügbar)",
+          "battery_sensor": "Batteriestandsensor Ihrer Sonde (falls verfügbar)",
+          "rssi_sensor": "Signalstärkesensor zur Verbindungserkennung (falls verfügbar)",
+          "notify_mobile": "Mobilgerät für Benachrichtigungen auswählen",
+          "notify_ha": "Persistente Benachrichtigung in Home Assistant anzeigen",
+          "notify_voice": "Gerät für Sprachansagen auswählen",
+          "notify_5min_before": "Benachrichtigung 5 Minuten vor Garende senden",
+          "notify_disconnect": "Benachrichtigung senden, wenn Sonde während des Kochens getrennt wird"
+        }
+      }
+    },
+    "error": {
+      "sensor_not_found": "Sensor nicht gefunden"
+    },
+    "abort": {
+      "already_configured": "Gerät bereits konfiguriert"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cooker konfigurieren",
+        "data": {
+          "name": "Gerätename",
+          "probe_sensor": "Sondentemperatursensor (erforderlich)",
+          "ambient_sensor": "Umgebungstemperatursensor",
+          "battery_sensor": "Batteriesensor",
+          "rssi_sensor": "Signalstärkesensor (RSSI)",
+          "notify_mobile": "Mobiler Benachrichtigungsdienst",
+          "notify_ha": "Home Assistant Benachrichtigungsdienst",
+          "notify_voice": "Sprachbenachrichtigungsdienst (Alexa, etc.)",
+          "notify_5min_before": "5 Minuten vor Fertigstellung benachrichtigen",
+          "notify_disconnect": "Bei Sondentrennung benachrichtigen"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Status" },
+      "probe_temp": { "name": "Sondentemperatur" },
+      "ambient_temp": { "name": "Umgebungstemperatur" },
+      "target_temp": { "name": "Zieltemperatur" },
+      "start_time": { "name": "Startzeit" },
+      "start_probe_temp": { "name": "Start-Sondentemperatur" },
+      "start_ambient_temp": { "name": "Start-Umgebungstemperatur" },
+      "estimated_end": { "name": "Geschätzte Endzeit" },
+      "remaining_time": { "name": "Verbleibende Zeit" },
+      "progress": { "name": "Fortschritt" },
+      "heating_rate": { "name": "Aufheizrate" },
+      "food_type": { "name": "Lebensmittelart" },
+      "doneness": { "name": "Garstufe" },
+      "battery": { "name": "Batterie" },
+      "rssi": { "name": "Signalstärke" },
+      "disconnect_duration": { "name": "Trennungsdauer" }
+    },
+    "binary_sensor": {
+      "probe_connected": { "name": "Sonde verbunden" }
+    },
+    "switch": {
+      "carryover_compensation": { "name": "Nachgarkompensation" }
+    }
+  }
+}

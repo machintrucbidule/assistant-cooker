@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "配置 Assistant Cooker",
+        "description": "设置您的烹饪探针",
+        "data": {
+          "name": "设备名称",
+          "probe_sensor": "探针温度传感器（必需）",
+          "ambient_sensor": "环境温度传感器",
+          "battery_sensor": "电池传感器",
+          "rssi_sensor": "信号强度传感器 (RSSI)",
+          "notify_mobile": "移动通知",
+          "notify_ha": "Home Assistant 持久通知",
+          "notify_voice": "语音通知（Alexa、Google...）",
+          "notify_5min_before": "完成前5分钟通知",
+          "notify_disconnect": "探针断开时通知"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "未找到传感器" },
+    "abort": { "already_configured": "设备已配置" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "配置 Assistant Cooker",
+        "data": {
+          "name": "设备名称",
+          "probe_sensor": "探针温度传感器（必需）",
+          "ambient_sensor": "环境温度传感器",
+          "battery_sensor": "电池传感器",
+          "rssi_sensor": "信号强度传感器 (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "状态" },
+      "probe_temp": { "name": "探针温度" },
+      "ambient_temp": { "name": "环境温度" },
+      "target_temp": { "name": "目标温度" },
+      "start_time": { "name": "开始时间" },
+      "estimated_end": { "name": "预计结束时间" },
+      "remaining_time": { "name": "剩余时间" },
+      "progress": { "name": "进度" },
+      "heating_rate": { "name": "加热速率" },
+      "battery": { "name": "电池" },
+      "rssi": { "name": "信号强度" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "探针已连接" } },
+    "switch": { "carryover_compensation": { "name": "热补偿" } }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Assistant Cooker",
+        "description": "Set up your cooking probe",
+        "data": {
+          "name": "Device name",
+          "probe_sensor": "Probe temperature sensor (required)",
+          "ambient_sensor": "Ambient temperature sensor",
+          "battery_sensor": "Battery sensor",
+          "rssi_sensor": "Signal strength sensor (RSSI)",
+          "notify_mobile": "Mobile notification",
+          "notify_ha": "Home Assistant persistent notification",
+          "notify_voice": "Voice notification (Alexa, Google...)",
+          "notify_5min_before": "Notify 5 minutes before done",
+          "notify_disconnect": "Notify if probe disconnects"
+        }
+      }
+    },
+    "error": {
+      "sensor_not_found": "Sensor not found"
+    },
+    "abort": {
+      "already_configured": "Device already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Assistant Cooker",
+        "data": {
+          "name": "Device name",
+          "probe_sensor": "Probe temperature sensor (required)",
+          "ambient_sensor": "Ambient temperature sensor",
+          "battery_sensor": "Battery sensor",
+          "rssi_sensor": "Signal strength sensor (RSSI)",
+          "notify_mobile": "Mobile notification service",
+          "notify_ha": "Home Assistant notification service",
+          "notify_voice": "Voice notification service (Alexa, etc.)",
+          "notify_5min_before": "Notify 5 minutes before done",
+          "notify_disconnect": "Notify if probe disconnects"
+        }
+      }
+    }
+  }
+}

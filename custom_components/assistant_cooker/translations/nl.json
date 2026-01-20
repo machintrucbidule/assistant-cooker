@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Assistant Cooker configureren",
+        "description": "Stel uw kooksonde in",
+        "data": {
+          "name": "Apparaatnaam",
+          "probe_sensor": "Sondetemperatuursensor (vereist)",
+          "ambient_sensor": "Omgevingstemperatuursensor",
+          "battery_sensor": "Batterijsensor",
+          "rssi_sensor": "Signaalsterktesensor (RSSI)",
+          "notify_mobile": "Mobiele melding",
+          "notify_ha": "Home Assistant persistente melding",
+          "notify_voice": "Spraakmelding (Alexa, Google...)",
+          "notify_5min_before": "Melden 5 minuten voor klaar",
+          "notify_disconnect": "Melden als sonde loskoppelt"
+        }
+      }
+    },
+    "error": { "sensor_not_found": "Sensor niet gevonden" },
+    "abort": { "already_configured": "Apparaat al geconfigureerd" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Assistant Cooker configureren",
+        "data": {
+          "name": "Apparaatnaam",
+          "probe_sensor": "Sondetemperatuursensor (vereist)",
+          "ambient_sensor": "Omgevingstemperatuursensor",
+          "battery_sensor": "Batterijsensor",
+          "rssi_sensor": "Signaalsterktesensor (RSSI)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": { "name": "Status" },
+      "probe_temp": { "name": "Sondetemperatuur" },
+      "ambient_temp": { "name": "Omgevingstemperatuur" },
+      "target_temp": { "name": "Doeltemperatuur" },
+      "start_time": { "name": "Starttijd" },
+      "estimated_end": { "name": "Geschatte eindtijd" },
+      "remaining_time": { "name": "Resterende tijd" },
+      "progress": { "name": "Voortgang" },
+      "heating_rate": { "name": "Opwarmsnelheid" },
+      "battery": { "name": "Batterij" },
+      "rssi": { "name": "Signaalsterkte" }
+    },
+    "binary_sensor": { "probe_connected": { "name": "Sonde verbonden" } },
+    "switch": { "carryover_compensation": { "name": "Nagaarkompensatie" } }
+  }
+}
