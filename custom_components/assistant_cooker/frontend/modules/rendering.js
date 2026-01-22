@@ -24,7 +24,12 @@ export class Renderer {
         <div class="card-container state-idle">
           <div class="header">
             <span class="state-badge clickable" data-entity="state">${t("idle")}</span>
-            <span class="food-display"></span>
+            <div class="progress-bar-container clickable" data-entity="progress" style="display:none;">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+                <span class="progress-bar-text">00%</span>
+              </div>
+            </div>
             <span class="battery-info" style="display:none"></span>
             <span class="rssi-info" style="display:none"></span>
           </div>
@@ -49,10 +54,6 @@ export class Renderer {
                   <span class="info-label">${t("started_at")}</span>
                   <span class="info-value time-start">--</span>
                 </div>
-                <div class="info-block clickable" data-entity="ambient_temp">
-                  <span class="info-label">${t("ambient")}</span>
-                  <span class="info-value ambient-temp">--</span>
-                </div>
               </div>
               
               <div class="progress-container clickable" data-entity="probe_temp">
@@ -61,9 +62,16 @@ export class Renderer {
                   <circle class="progress-ring-circle" cx="80" cy="80" r="70" />
                 </svg>
                 <div class="progress-center">
-                  <span class="progress-percent clickable" data-entity="progress"></span>
+                  <div class="ambient-temp-row clickable" data-entity="ambient_temp">
+                    <ha-icon icon="mdi:air-filter" class="ambient-icon"></ha-icon>
+                    <span class="ambient-temp-value"--</span>
+                  </div>
                   <span class="probe-temp-value">--</span>
-                  <span class="target-temp-value clickable" data-entity="target_temp"></span>
+                  <span class="heating-rate-value clickable" data-entity="heating_rate">--</span>
+                  <div class="target-temp-row clickable" data-entity="target_temp">
+                    <ha-icon icon="mdi:target" class="target-icon"></ha-icon>
+                    <span class="target-temp-value">--</span>
+                  </div>
                 </div>
               </div>
               
@@ -75,10 +83,6 @@ export class Renderer {
                 <div class="info-block clickable" data-entity="estimated_end">
                   <span class="info-label">${t("ends_at")}</span>
                   <span class="info-value time-end">--</span>
-                </div>
-                <div class="info-block clickable" data-entity="heating_rate">
-                  <span class="info-label">${t("rate")}</span>
-                  <span class="info-value heating-rate">--</span>
                 </div>
               </div>
             </div>
@@ -117,7 +121,7 @@ export class Renderer {
             </div>
           </div>
 
-          <div class="graph-section">
+          <div class="graph-section" ${config.show_graph === false ? 'style="display:none"' : ''}>
             <div id="chart"></div>
             <div class="graph-controls">
               <button class="graph-toggle">▲</button>
@@ -195,8 +199,22 @@ export class Renderer {
       .state-badge.cooking { background: var(--warning-color); color: #fff; }
       .state-badge.done { background: var(--success-color); color: #fff; }
       .state-badge:hover { opacity: 0.8; }
+      
+      /* Progress bar */
+      .progress-bar-container { display: flex; flex: 1; height: 24px; margin: 0 10px; position: relative; }
+      .progress-bar-bg { flex: 1; height: 100%; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; position: relative; }
+      .progress-bar-fill { height: 100%; width: 0%; background: #03a9f4; transition: width 0.3s ease, background-color 0.3s ease; }
+      .progress-bar-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 600; color: #fff; min-width: 35px; text-align: center; z-index: 10; }
+      
+      /* Progress bar color states */
+      .progress-bar-fill.low { background: #03a9f4; }
+      .progress-bar-fill.medium { background: #ff9800; }
+      .progress-bar-fill.high { background: #4caf50; }
+      .progress-bar-fill.disabled { background: #9e9e9e; }
+      
       .food-display { flex: 1; font-size: 14px; color: var(--text-primary); font-weight: 500; }
-      .battery-info, .rssi-info { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; cursor: pointer; }
+      .battery-info { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; cursor: pointer; margin-left: auto; }
+      .rssi-info { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; cursor: pointer; }
       .battery-info:hover, .rssi-info:hover { opacity: 0.8; }
       
       /* Disconnect section */
@@ -221,10 +239,26 @@ export class Renderer {
       .progress-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
       .progress-ring-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; }
       .progress-ring-circle { fill: none; stroke: var(--primary-color); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 439.82; stroke-dashoffset: 439.82; transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease; }
-      .progress-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-      .progress-percent { position: absolute; top: -30px; font-size: 18px; font-weight: 700; color: var(--primary-color); }
-      .probe-temp-value { font-size: 32px; font-weight: 700; color: var(--text-primary); margin: 0; }
-      .target-temp-value { position: absolute; bottom: -30px; font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+      .progress-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; }
+      .progress-percent { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: 700; color: var(--primary-color); }
+      
+      .ambient-temp-row { position: absolute; top: 35px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 600; line-height: 1; }
+      .ambient-icon { font-size: 13px; width: 13px; height: 13px; flex-shrink: 0; line-height: 1; display: flex; align-items: center; justify-content: center; }
+      .ambient-icon.blue { color: #03a9f4; }
+      .ambient-icon.orange { color: #ff9800; }
+      .ambient-icon.red { color: #f44336; }
+      .ambient-temp-value { font-size: 13px; font-weight: 600; line-height: 1; }
+      .ambient-temp-value.blue { color: #03a9f4; }
+      .ambient-temp-value.orange { color: #ff9800; }
+      .ambient-temp-value.red { color: #f44336; }
+      
+      .probe-temp-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; font-weight: 700; color: var(--text-primary); line-height: 1; white-space: nowrap; }
+      
+      .heating-rate-value { position: absolute; top: 63%; left: 50%; transform: translateX(-50%); font-size: 11px; color: #999; font-weight: 500; line-height: 1; white-space: nowrap; }
+      
+      .target-temp-row { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; font-size: 13px; font-weight: 600; color: var(--text-secondary); cursor: pointer; line-height: 1; }
+      .target-icon { font-size: 11px; width: 11px; height: 11px; color: var(--text-secondary); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+      .target-temp-value { font-size: 13px; font-weight: 600; line-height: 1; }
       
       /* Settings section */
       .settings-section { display: flex; gap: 12px; }
@@ -269,5 +303,41 @@ export class Renderer {
       .help-popup-text { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 16px; }
       .help-popup-close { width: 100%; padding: 10px; background: var(--primary-color); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
     `;
+  }
+
+  /**
+   * Update progress bar in header
+   */
+  updateProgressBar(shadowRoot, progress, state) {
+    const container = shadowRoot.querySelector('.progress-bar-container');
+    const fill = shadowRoot.querySelector('.progress-bar-fill');
+    const text = shadowRoot.querySelector('.progress-bar-text');
+
+    if (!container || !fill || !text) return;
+
+    // Show/hide progress bar based on state
+    const showProgress = state === 'cooking' || state === 'done';
+    container.style.display = showProgress ? 'flex' : 'none';
+
+    if (!showProgress) return;
+
+    // Ensure progress is 0-100
+    const percent = Math.max(0, Math.min(100, progress || 0));
+
+    // Update width and text - format as 2 digits with leading zero
+    fill.style.width = percent + '%';
+    text.textContent = String(Math.round(percent)).padStart(2, '0') + '%';
+
+    // Update color classes based on percentage
+    fill.classList.remove('low', 'medium', 'high', 'disabled');
+    if (state === 'done') {
+      fill.classList.add('high');
+    } else if (percent < 80) {
+      fill.classList.add('low');
+    } else if (percent < 100) {
+      fill.classList.add('medium');
+    } else {
+      fill.classList.add('high');
+    }
   }
 }

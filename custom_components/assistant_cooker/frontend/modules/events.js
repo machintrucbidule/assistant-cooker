@@ -195,8 +195,8 @@ export class EventHandler {
     overlay.className = "help-popup-overlay";
     overlay.innerHTML = `
       <div class="help-popup">
-        <div class="help-popup-title">${t("compensation")}</div>
-        <div class="help-popup-text">${t("carryover_help")}</div>
+        <div class="help-popup-title">${t("compensation_help_title")}</div>
+        <div class="help-popup-text">${t("compensation_help_text").replace(/\n/g, "<br/>")}</div>
         <button class="help-popup-close">${t("close")}</button>
       </div>
     `;

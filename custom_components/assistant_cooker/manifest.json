@@ -7,5 +7,6 @@
   "documentation": "https://github.com/machintrucbidule/assistant-cooker",
   "iot_class": "local_polling",
   "requirements": [],
-  "version": "0.0.36"
+  "version": "0.0.37",
+  "icon": "icon.png"
 }

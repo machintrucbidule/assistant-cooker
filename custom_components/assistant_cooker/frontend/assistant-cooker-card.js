@@ -1,5 +1,5 @@
 /**
- * Assistant Cooker Card v0.0.36
+ * Assistant Cooker Card v0.0.37
  * Modular architecture with separate modules for state, rendering, events, and charting
  */
 import { StateManager } from './modules/state-manager.js';
@@ -9,13 +9,13 @@ import { Renderer } from './modules/rendering.js';
 import { EventHandler } from './modules/events.js';
 import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
+import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.36";
+const CARD_VERSION = "0.0.37";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
     super();
-    console.log("[AC-CARD] Constructor called");
     this.attachShadow({ mode: "open" });
     
     // Core properties
@@ -24,8 +24,11 @@ class AssistantCookerCard extends HTMLElement {
     this._rendered = false;
     
     // Graph state
-    this._graphVisible = true;
+    this._graphVisible = false;  // Hidden by default, shown only during cooking
     this._userToggledGraph = false;
+    
+    // Timer for elapsed time update
+    this._elapsedTimeInterval = null;
     
     // Initialize modules
     this._stateManager = new StateManager();
@@ -36,7 +39,11 @@ class AssistantCookerCard extends HTMLElement {
   }
 
   static getConfigElement() {
-    return null;  // Visual editor not implemented yet
+    return document.createElement("assistant-cooker-card-editor");
+  }
+
+  getCardConfig() {
+    return this._config || {};
   }
 
   static getStubConfig() {
@@ -51,7 +58,6 @@ class AssistantCookerCard extends HTMLElement {
   }
 
   setConfig(config) {
-    console.log("[AC-CARD] setConfig called", config);
     if (!config.entity_prefix) throw new Error("Please define entity_prefix");
     
     this._config = {
@@ -69,14 +75,11 @@ class AssistantCookerCard extends HTMLElement {
   }
 
   set hass(hass) {
-    console.log("[AC-CARD] set hass called, wasRendered:", this._rendered);
     const languageChanged = this._stateManager.setHass(hass);
     
     // Re-render if language changed to update all translations
     if (languageChanged && this._rendered) {
-      console.log("[AC-CARD] Language changed, scheduling re-render after translations load");
       this._stateManager.waitForTranslations().then(() => {
-        console.log("[AC-CARD] Translations loaded, re-rendering");
         this.render();
         // Sync with backend AFTER render completes
         const stateEntity = this._stateManager.getEntityState(this._entities.state);
@@ -115,17 +118,13 @@ class AssistantCookerCard extends HTMLElement {
       battery: `sensor.${p}_battery`,
       rssi: `sensor.${p}_signal_strength`
     };
-    console.log("[AC-CARD] _entities configured:", this._entities);
   }
 
   render() {
-    console.log("[AC-CARD] render() called");
     if (!this.shadowRoot) return;
     
-    console.log("[AC-CARD] calling renderer.renderCard");
     this._renderer.renderCard(this.shadowRoot, this._config);
     this._rendered = true;
-    console.log("[AC-CARD] render complete");
     
     // Attach event listeners
     this._eventHandler.attachAllListeners(
@@ -149,21 +148,26 @@ class AssistantCookerCard extends HTMLElement {
       setTimeout(() => {
         const chartEl = this.shadowRoot.querySelector("#chart");
         if (chartEl) {
+          // Force reflow to ensure layout is computed
+          void chartEl.offsetHeight;
+          
           this._chartManager.initChart(chartEl, this._entities);
-          // Immediate update to fix 30s delay
-          const stateEntity = this._stateManager.getEntityState(this._entities.state);
-          if (stateEntity) {
-            const attrs = stateEntity.attributes || {};
-            this._chartManager.updateFromAttributes(
-              attrs.withdrawal_temp,
-              null, // remaining_time from attrs
-              stateEntity.state,
-              attrs.temp_history || [],
-              attrs.ambient_history || []
-            );
-          }
+          // Immediate update to fix 30s delay - but wait for chart to render first
+          setTimeout(() => {
+            const stateEntity = this._stateManager.getEntityState(this._entities.state);
+            if (stateEntity) {
+              const attrs = stateEntity.attributes || {};
+              this._chartManager.updateFromAttributes(
+                attrs.withdrawal_temp,
+                null, // remaining_time from attrs
+                stateEntity.state,
+                attrs.temp_history || [],
+                attrs.ambient_history || []
+              );
+            }
+          }, 200);
         }
-      }, 50);
+      }, 100);
     }
   }
 
@@ -175,14 +179,11 @@ class AssistantCookerCard extends HTMLElement {
     const doneness = attrs.food_doneness;
     const isManual = attrs.is_manual_mode;
     
-    console.log("[AC-CARD] _syncWithBackend - category:", category, "food:", food, "doneness:", doneness, "isManual:", isManual, "food_type:", attrs.food_type);
-    
     const categorySelect = this.shadowRoot.querySelector(".select-category");
     const foodSelect = this.shadowRoot.querySelector(".select-food");
     const donenessSelect = this.shadowRoot.querySelector(".select-doneness");
     
     if (!categorySelect) {
-      console.warn("[AC-CARD] _syncWithBackend - categorySelect not found!");
       return;
     }
     
@@ -199,35 +200,39 @@ class AssistantCookerCard extends HTMLElement {
         donenessSelect.disabled = true;
       }
     } else if (category && food) {
-      console.log("[AC-CARD] _syncWithBackend - setting category to:", category);
       categorySelect.value = category;
-      console.log("[AC-CARD] _syncWithBackend - categorySelect.value is now:", categorySelect.value);
       
       if (foodSelect) {
         const foodOptions = this._renderer.generateFoodOptions(category, food);
-        console.log("[AC-CARD] _syncWithBackend - generated food options, length:", foodOptions.length);
         foodSelect.innerHTML = foodOptions;
         foodSelect.disabled = false;
         // Wait for next tick to ensure options are rendered
         setTimeout(() => {
           foodSelect.value = food;
-          console.log("[AC-CARD] Set foodSelect.value to:", food, "actual value:", foodSelect.value, "options count:", foodSelect.options.length);
         }, 10);
       }
       
       if (doneness && donenessSelect) {
         const donenessOptions = this._renderer.generateDonenessOptions(category, food, doneness);
-        console.log("[AC-CARD] _syncWithBackend - generated doneness options, length:", donenessOptions.length);
         donenessSelect.innerHTML = donenessOptions;
         donenessSelect.disabled = false;
         // Wait for next tick to ensure options are rendered
         setTimeout(() => {
           donenessSelect.value = doneness;
-          console.log("[AC-CARD] Set donenessSelect.value to:", doneness, "actual value:", donenessSelect.value, "options count:", donenessSelect.options.length);
         }, 10);
       }
-    } else {
-      console.log("[AC-CARD] _syncWithBackend - not manual but missing category or food. category:", category, "food:", food);
+    }
+    
+    // Also update the target temperature input from the entity sensor
+    const targetInput = this.shadowRoot.querySelector(".target-input");
+    if (targetInput) {
+      const targetTempEntity = this._stateManager.getEntityState(this._entities.target_temp);
+      if (targetTempEntity && targetTempEntity.state) {
+        const temp = parseFloat(targetTempEntity.state);
+        if (!isNaN(temp)) {
+          targetInput.value = Math.round(temp);
+        }
+      }
     }
   }
 
@@ -237,18 +242,29 @@ class AssistantCookerCard extends HTMLElement {
     const attrs = stateEntity.attributes || {};
     const state = stateEntity.state;
     
+    // Handle state transitions for cooking timing
+    const prevCookingStart = this._stateManager.getCookingStartTime();
+    if (state === "cooking" && !prevCookingStart) {
+      // Cooking just started - initialize the start time
+      this._stateManager.setCookingStartTime(Date.now());
+    } else if (state !== "cooking" && prevCookingStart) {
+      // Cooking ended - reset the timer
+      this._stateManager.resetCookingStartTime();
+    }
+    
     // Extract current temperatures from history (last entry)
     const tempHistory = attrs.temp_history || [];
     const ambientHistory = attrs.ambient_history || [];
     const probeTemp = tempHistory.length > 0 ? tempHistory[tempHistory.length - 1][1] : null;
     const ambientTemp = ambientHistory.length > 0 ? ambientHistory[ambientHistory.length - 1][1] : null;
     
-    console.log("[AC-CARD] probeTemp from history:", probeTemp, "ambientTemp:", ambientTemp);
+    // Get progress value
+    const progress = this._stateManager.getNumericState(this._entities.progress);
     
     // Parse food_type correctly: "beef_steak" -> "steak"
     const parsedFood = attrs.food_type ? attrs.food_type.substring(attrs.food_type.indexOf('_') + 1) : null;
     
-    // Update header
+    // Update header with progress bar
     this._updateHeader(
       state,
       attrs.battery,
@@ -256,8 +272,15 @@ class AssistantCookerCard extends HTMLElement {
       attrs.food_category,
       parsedFood,
       attrs.food_doneness,
-      attrs.is_manual_mode
+      attrs.is_manual_mode,
+      progress
     );
+    
+    // Get state values for times and rate
+    const startTime = this._stateManager.getEntityState(this._entities.start_time)?.state;
+    const remainingTime = this._stateManager.getNumericState(this._entities.remaining_time);
+    const estimatedEnd = this._stateManager.getEntityState(this._entities.estimated_end)?.state;
+    const heatingRate = this._stateManager.getNumericState(this._entities.heating_rate);
     
     // Update main view
     this._updateMainView(
@@ -266,10 +289,10 @@ class AssistantCookerCard extends HTMLElement {
       attrs.withdrawal_temp,
       attrs.desired_temp,
       null, // progress - need to calculate
-      null, // start_time - need to find in attrs
-      null, // estimated_end - need to find in attrs
-      null, // remaining_time - need to find in attrs
-      null, // heating_rate - need to find in attrs
+      startTime,
+      estimatedEnd,
+      remainingTime,
+      heatingRate,
       ambientTemp,
       attrs.carryover_enabled,
       attrs.probe_connected,
@@ -299,20 +322,20 @@ class AssistantCookerCard extends HTMLElement {
     }
   }
 
-  _updateHeader(state, battery, rssi, category, food, doneness, isManual) {
+  _updateHeader(state, battery, rssi, category, food, doneness, isManual, progress) {
     const t = (key) => this._stateManager.t(key);
     const stateBadge = this.shadowRoot.querySelector(".state-badge");
     const foodDisplay = this.shadowRoot.querySelector(".food-display");
     const batteryInfo = this.shadowRoot.querySelector(".battery-info");
     const rssiInfo = this.shadowRoot.querySelector(".rssi-info");
     
-    console.log("[AC-CARD] _updateHeader - state:", state, "battery:", battery, "rssi:", rssi);
+    // Update progress bar
+    this._renderer.updateProgressBar(this.shadowRoot, progress, state);
     
     // State badge
     if (stateBadge) {
       stateBadge.className = `state-badge clickable ${state}`;
       stateBadge.textContent = t(state);
-      console.log("[AC-CARD] stateBadge className:", stateBadge.className, "text:", stateBadge.textContent);
     }
     
     // Food display removed - will be used for other purposes later
@@ -370,6 +393,9 @@ class AssistantCookerCard extends HTMLElement {
       mainContent.style.display = "none";
       if (batteryInfo) batteryInfo.style.display = "none";
       if (rssiInfo) rssiInfo.style.display = "none";
+      // Hide graph when disconnected
+      const chartDiv = this.shadowRoot.querySelector("#chart");
+      if (chartDiv) chartDiv.style.display = "none";
       return; // Nothing else to display
     }
     
@@ -394,16 +420,54 @@ class AssistantCookerCard extends HTMLElement {
     // Update temperatures
     const probeTempEl = this.shadowRoot.querySelector(".probe-temp-value");
     const targetTempEl = this.shadowRoot.querySelector(".target-temp-value");
-    const ambientTempEl = this.shadowRoot.querySelector(".ambient-temp");
+    const ambientTempValueEl = this.shadowRoot.querySelector(".ambient-temp-value");
+    const ambientIconEl = this.shadowRoot.querySelector(".ambient-icon");
+    const heatingRateEl = this.shadowRoot.querySelector(".heating-rate-value");
     
     if (probeTempEl) {
       probeTempEl.textContent = (probeTemp !== null && probeTemp !== undefined) ? `${probeTemp.toFixed(1)}°` : "--";
     }
     
+    // Update ambient temperature with color coding
+    if (ambientTempValueEl) {
+      const ambientRowEl = ambientTempValueEl.parentElement;
+      if (ambientTemp !== null && ambientTemp !== undefined) {
+        ambientTempValueEl.textContent = `${ambientTemp.toFixed(1)}°`;
+        // Apply color based on temperature
+        ambientTempValueEl.classList.remove("blue", "orange", "red");
+        if (ambientIconEl) {
+          ambientIconEl.classList.remove("blue", "orange", "red");
+        }
+        if (ambientTemp < 50) {
+          ambientTempValueEl.classList.add("blue");
+          if (ambientIconEl) ambientIconEl.classList.add("blue");
+        } else if (ambientTemp < 100) {
+          ambientTempValueEl.classList.add("orange");
+          if (ambientIconEl) ambientIconEl.classList.add("orange");
+        } else {
+          ambientTempValueEl.classList.add("red");
+          if (ambientIconEl) ambientIconEl.classList.add("red");
+        }
+        if (ambientRowEl) ambientRowEl.style.display = "";
+      } else {
+        if (ambientRowEl) ambientRowEl.style.display = "none";
+      }
+    }
+    
+    // Update heating rate
+    if (heatingRateEl) {
+      if (state === "cooking" && heatingRate !== null && heatingRate !== undefined) {
+        heatingRateEl.textContent = `${heatingRate.toFixed(2)}°/min`;
+        heatingRateEl.style.display = "";
+      } else {
+        heatingRateEl.style.display = "none";
+      }
+    }
+    
     if (targetTempEl) {
-      if (state === "cooking") {
-        targetTempEl.style.display = "";
-        // During cooking, show withdrawal temp if compensation enabled, otherwise desired temp
+      if (state === "cooking" || state === "done") {
+        targetTempEl.parentElement.style.display = "";
+        // During cooking/done, show withdrawal temp if compensation enabled, otherwise desired temp
         if (carryoverEnabled && withdrawalTemp !== null && withdrawalTemp !== undefined) {
           targetTempEl.textContent = `${withdrawalTemp.toFixed(1)}°`;
         } else if (desiredTemp !== null && desiredTemp !== undefined) {
@@ -412,13 +476,9 @@ class AssistantCookerCard extends HTMLElement {
           targetTempEl.textContent = "--";
         }
       } else {
-        // In IDLE/DONE, hide the target temp element completely
-        targetTempEl.style.display = "none";
+        // In IDLE, hide the target temp row completely
+        targetTempEl.parentElement.style.display = "none";
       }
-    }
-    
-    if (ambientTempEl) {
-      ambientTempEl.textContent = (ambientTemp !== null && ambientTemp !== undefined) ? `${ambientTemp.toFixed(1)}°` : "--";
     }
     
     // Update progress
@@ -459,7 +519,6 @@ class AssistantCookerCard extends HTMLElement {
     const timeRemainingBlock = timeRemaining?.closest(".info-block");
     const timeStartBlock = timeStart?.closest(".info-block");
     const timeEndBlock = timeEnd?.closest(".info-block");
-    const ambientTempBlock = ambientTempEl?.closest(".info-block");
     
     // STATE: IDLE - Hide all times/rate/ambient
     if (state === "idle") {
@@ -467,60 +526,66 @@ class AssistantCookerCard extends HTMLElement {
       if (timeRemainingBlock) timeRemainingBlock.style.display = "none";
       if (timeStartBlock) timeStartBlock.style.display = "none";
       if (timeEndBlock) timeEndBlock.style.display = "none";
-      if (ambientTempBlock) ambientTempBlock.style.display = "none";
     }
     
     // STATE: COOKING - Show all times/rate/ambient
     if (state === "cooking") {
-      const cookingStart = this._stateManager.getCookingStartTime();
-      const elapsed = cookingStart ? Math.floor((Date.now() - cookingStart) / 60000) : 0;
+      // Calculate elapsed time from startTime (from HA) in seconds
+      let elapsed = 0;
+      if (startTime) {
+        try {
+          const startDate = new Date(startTime);
+          elapsed = Math.floor((Date.now() - startDate.getTime()) / 1000);
+        } catch (e) {
+          elapsed = 0;
+        }
+      }
+      
+      // Check if heating rate is valid (if negative or near-zero, don't show calculated times)
+      const heatingRateValid = heatingRate !== null && heatingRate !== undefined && heatingRate > 0.01;
       
       if (timeElapsed) timeElapsed.textContent = this._formatDuration(elapsed);
-      if (timeRemaining) timeRemaining.textContent = remainingTime !== null ? this._formatDuration(remainingTime) : "--";
+      if (timeRemaining) timeRemaining.textContent = (heatingRateValid && remainingTime !== null) ? this._formatDuration(remainingTime * 60) : "--";
       if (timeStart) timeStart.textContent = this._formatTime(startTime);
-      if (timeEnd) timeEnd.textContent = this._formatTime(estimatedEnd);
+      if (timeEnd) timeEnd.textContent = heatingRateValid ? this._formatTime(estimatedEnd) : "--";
+      
+      // Start elapsed time timer
+      this._startElapsedTimer();
       
       // Show time blocks during cooking
       if (timeElapsedBlock) timeElapsedBlock.style.display = "";
       if (timeRemainingBlock) timeRemainingBlock.style.display = "";
       if (timeStartBlock) timeStartBlock.style.display = "";
       if (timeEndBlock) timeEndBlock.style.display = "";
-      if (ambientTempBlock) ambientTempBlock.style.display = "";
     } else {
+      // Stop elapsed timer when not cooking
+      this._stopElapsedTimer();
       // IDLE/DONE: hide time blocks
       if (timeElapsedBlock) timeElapsedBlock.style.display = "none";
       if (timeRemainingBlock) timeRemainingBlock.style.display = "none";
       if (timeStartBlock) timeStartBlock.style.display = "none";
       if (timeEndBlock) timeEndBlock.style.display = "none";
-      if (ambientTempBlock) ambientTempBlock.style.display = "none";
     }
     
-    // Update heating rate
-    const heatingRateEl = this.shadowRoot.querySelector(".heating-rate");
-    const heatingRateBlock = heatingRateEl?.closest(".info-block");
-    if (heatingRateEl && heatingRateBlock) {
-      if (state === "cooking") {
-        heatingRateEl.textContent = (heatingRate !== null && heatingRate !== undefined) ? `${heatingRate.toFixed(2)}°/min` : "--";
-        heatingRateBlock.style.display = "";
-      } else {
-        heatingRateBlock.style.display = "none";
-      }
-    }
+    // Note: heating rate now displayed only in circle and info-blocks are removed
+    
     
     // Graph visibility based on state (if not user-toggled)
     const chartDiv = this.shadowRoot.querySelector("#chart");
     const graphToggle = this.shadowRoot.querySelector(".graph-toggle");
-    if (!this._userToggledGraph && chartDiv && graphToggle) {
-      if (state === "cooking") {
-        // Graph visible during cooking
-        chartDiv.style.display = "";
-        this._graphVisible = true;
-        graphToggle.textContent = "▲";
+    if (chartDiv && graphToggle) {
+      // Determine if graph should be visible based on state and config
+      const shouldShowByDefault = (state === "cooking") && this._config.show_graph;
+      
+      if (this._userToggledGraph) {
+        // User has toggled, respect their choice
+        chartDiv.style.display = this._graphVisible ? "" : "none";
+        graphToggle.textContent = this._graphVisible ? "▲" : "▼";
       } else {
-        // Graph hidden in other states
-        chartDiv.style.display = "none";
-        this._graphVisible = false;
-        graphToggle.textContent = "▼";
+        // Auto-control based on state
+        chartDiv.style.display = shouldShowByDefault ? "" : "none";
+        graphToggle.textContent = shouldShowByDefault ? "▲" : "▼";
+        this._graphVisible = shouldShowByDefault;
       }
     }
   }
@@ -534,7 +599,7 @@ class AssistantCookerCard extends HTMLElement {
       if (temp !== null && temp !== undefined) {
         targetInput.value = Math.round(temp);
       }
-      targetInput.disabled = (state === "cooking" || state === "done");
+      targetInput.disabled = false; // Always enabled
     }
     
     if (compToggle) {
@@ -593,11 +658,21 @@ class AssistantCookerCard extends HTMLElement {
     }
   }
 
-  _formatDuration(minutes) {
-    if (minutes === null || minutes === undefined || isNaN(minutes)) return "--";
-    const h = Math.floor(minutes / 60);
-    const m = Math.floor(minutes % 60);
-    return `${h}h${m.toString().padStart(2, "0")}`;
+  _formatDuration(seconds) {
+    if (seconds === null || seconds === undefined || isNaN(seconds)) return "--";
+    
+    const totalSeconds = Math.floor(seconds);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    
+    // If less than 1 hour, show mm:ss format
+    if (hours === 0) {
+      return `${minutes.toString().padStart(2, "0")}m${secs.toString().padStart(2, "0")}`;
+    }
+    
+    // If 1 hour or more, show hh:mm format
+    return `${hours}h${minutes.toString().padStart(2, "0")}`;
   }
 
   _formatTime(isoString) {
@@ -607,6 +682,47 @@ class AssistantCookerCard extends HTMLElement {
       return d.toLocaleTimeString(this._stateManager.getLang(), { hour: "2-digit", minute: "2-digit" });
     } catch {
       return "--";
+    }
+  }
+
+  /**
+   * Update elapsed time display every second
+   */
+  _updateElapsedTime() {
+    const timeElapsed = this.shadowRoot?.querySelector(".time-elapsed");
+    if (!timeElapsed) return;
+
+    // Get startTime from entity
+    const startTime = this._stateManager.getEntityState(this._entities.start_time)?.state;
+    if (!startTime) {
+      timeElapsed.textContent = "--";
+      return;
+    }
+
+    try {
+      const startDate = new Date(startTime);
+      const elapsed = Math.floor((Date.now() - startDate.getTime()) / 1000);
+      timeElapsed.textContent = this._formatDuration(elapsed);
+    } catch (e) {
+      timeElapsed.textContent = "--";
+    }
+  }
+
+  /**
+   * Start elapsed time timer
+   */
+  _startElapsedTimer() {
+    if (this._elapsedTimeInterval) return; // Already running
+    this._elapsedTimeInterval = setInterval(() => this._updateElapsedTime(), 1000);
+  }
+
+  /**
+   * Stop elapsed time timer
+   */
+  _stopElapsedTimer() {
+    if (this._elapsedTimeInterval) {
+      clearInterval(this._elapsedTimeInterval);
+      this._elapsedTimeInterval = null;
     }
   }
 
