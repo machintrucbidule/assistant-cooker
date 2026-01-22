@@ -24,17 +24,14 @@ export class StateManager {
    * Set Home Assistant instance and handle language changes
    */
   setHass(hass) {
-    console.log("[AC-STATE] setHass called, language:", hass.language);
     const oldLang = this._lang;
     this._hass = hass;
     
     const newLang = hass.language?.substring(0, 2) || "en";
-    console.log("[AC-STATE] detected lang:", newLang);
     const supportedLangs = ["fr", "en", "de", "es", "it", "pt", "nl", "pl", "ru", "zh", "ja", "ko", "ar", "hi", "tr", "sv", "da", "nb", "fi", "cs", "uk"];
     this._lang = supportedLangs.includes(newLang) ? newLang : "en";
 
     const languageChanged = oldLang !== this._lang;
-    console.log("[AC-STATE] languageChanged:", languageChanged);
 
     if (languageChanged) {
       this._translationsLoading = this._loadLanguage();
@@ -71,21 +68,16 @@ export class StateManager {
    * Load language translations (lazy-loading)
    */
   async _loadLanguage() {
-    console.log(`[AC-STATE] _loadLanguage called for lang: ${this._lang}`);
     if (this._lang === "en") {
       this._translations = this._translationsCache.en;
-      console.log(`[AC-STATE] Using EN translations (cached)`);
     } else {
       if (this._translationsCache[this._lang]) {
         this._translations = this._translationsCache[this._lang];
-        console.log(`[AC-STATE] Using cached ${this._lang} translations`);
       } else {
         try {
-          console.log(`[AC-STATE] Loading ${this._lang} translations from file...`);
           const langModule = await import(`../translations/${this._lang}.js`);
           this._translationsCache[this._lang] = langModule.translations;
           this._translations = langModule.translations;
-          console.log(`[AC-STATE] Successfully loaded ${this._lang} translations:`, Object.keys(this._translations).slice(0, 10));
         } catch (e) {
           console.error(`[assistant-cooker-card] Failed to load translation for ${this._lang}. Falling back to 'en'.`, e);
           this._lang = "en";
@@ -100,9 +92,6 @@ export class StateManager {
    */
   t(key) {
     const translated = this._translations?.[key] || this._translationsCache.en[key] || key;
-    if (key === 'idle' || key === 'elapsed') {
-      console.log(`[AC-STATE] t('${key}'): lang=${this._lang}, hasTranslations=${!!this._translations}, result='${translated}'`);
-    }
     return translated;
   }
 
@@ -151,12 +140,6 @@ export class StateManager {
                     this._lastBackendIsManual !== backendIsManual;
 
     if (changed) {
-      console.log("[AC-STATE] hasBackendChanged: YES", {
-        category: { old: this._lastBackendCategory, new: backendCategory },
-        food: { old: this._lastBackendFood, new: backendFood },
-        doneness: { old: this._lastBackendDoneness, new: backendDoneness },
-        manual: { old: this._lastBackendIsManual, new: backendIsManual }
-      });
       this._lastBackendCategory = backendCategory;
       this._lastBackendFood = backendFood;
       this._lastBackendDoneness = backendDoneness;

@@ -1,5 +1,6 @@
 {
   "name": "Assistant Cooker",
   "hacs": "integration",
-  "render_readme": true
+  "render_readme": true,
+  "icon": "custom_components/assistant_cooker/icon.png"
 }

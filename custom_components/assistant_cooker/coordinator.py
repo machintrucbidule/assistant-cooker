@@ -375,8 +375,12 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
         
         # Get current heating rate
         heating_rate = self._calculate_heating_rate()
-        if heating_rate is None or heating_rate <= 0:
-            # No data yet - withdrawal = desired until we have data
+        _LOGGER.debug(f"[CARRYOVER DEBUG] heating_rate={heating_rate}, type={type(heating_rate)}, desired_temp={self._desired_temp}")
+        
+        if heating_rate is None or heating_rate < 0.01:
+            # No valid heating rate (None, negative, or near-zero = likely measurement issue or cooking finished)
+            # Don't apply carryover compensation - withdrawal temp = desired temp
+            _LOGGER.debug(f"[CARRYOVER DEBUG] heating_rate invalid, returning 0.0")
             return 0.0
         
         # Get food type weight factor
@@ -405,13 +409,18 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
         # Calculate final carryover with all factors
         dynamic_carryover = base_carryover * type_weight * ambient_factor
         
+        _LOGGER.debug(f"[CARRYOVER DEBUG] type={carryover_type}, type_weight={type_weight}, ambient_temp={ambient_temp}, ambient_factor={ambient_factor}, rate_factor={rate_factor}, base_carryover={base_carryover}, dynamic_carryover={dynamic_carryover}")
+        
         # Cap between reasonable bounds (0 to 8°C)
-        return min(8.0, max(0.0, dynamic_carryover))
+        result = min(8.0, max(0.0, dynamic_carryover))
+        _LOGGER.debug(f"[CARRYOVER DEBUG] final carryover capped={result}")
+        return result
 
     def _update_withdrawal_temp(self) -> None:
         """Update the withdrawal temperature based on dynamic carryover."""
         if not self._carryover_enabled:
             self._withdrawal_temp = self._desired_temp
+            _LOGGER.debug(f"[WITHDRAWAL DEBUG] carryover disabled, withdrawal={self._withdrawal_temp}")
             return
             
         carryover = self._calculate_dynamic_carryover()
@@ -419,6 +428,8 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
         
         # Ensure withdrawal temp doesn't go below a reasonable minimum
         self._withdrawal_temp = max(30.0, self._withdrawal_temp)
+        
+        _LOGGER.debug(f"[WITHDRAWAL DEBUG] desired={self._desired_temp}, carryover={carryover}, final_withdrawal={self._withdrawal_temp}")
 
     def _calculate_progress(self) -> float:
         """Calculate cooking progress percentage."""
