@@ -1,7 +1,7 @@
 # SPECIFICATIONS — Assistant Cooker
 
-**Current implemented version:** 0.0.36
-**Last updated:** 2026-01-20
+**Current implemented version:** 0.0.38
+**Last updated:** 2026-01-23
 
 ---
 
@@ -305,7 +305,54 @@ The `raw_target` attribute of target_temp sensor contains the value before compe
 
 **Status:** ✅ Implemented
 
-### 8.5 Implemented Constraints
+### 8.5 Probe Insertion Detection (v0.0.38)
+
+When a probe is inserted into cold food, there's a sudden temperature drop. The system detects this and resets calculations to avoid displaying absurd estimates (e.g., 1500 min).
+
+**Detection Parameters:**
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `temp_drop_threshold` | -5°C | Minimum drop to trigger detection |
+| `temp_drop_check_seconds` | 30s | Time window for detection |
+
+**Behavior:**
+1. If temperature drops > 5°C within 30 seconds → Reset all calculation state
+2. Wait for temperature to start rising again before calculating
+3. Prevents "history pollution" from pre-insertion data
+
+**Status:** ✅ Implemented
+
+### 8.6 Estimate Stability Check (v0.0.38)
+
+To avoid displaying unstable/jumping estimates, the system only shows remaining time when the estimate is stable.
+
+**Stability Parameters:**
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `min_rising_duration_seconds` | 20s | Minimum rising time before calculation |
+| `stability_threshold_seconds` | 30s | Maximum acceptable deviation |
+| `stability_period_seconds` | 60s | Observation period for stability |
+
+**Stability Algorithm:**
+```
+For each consecutive estimate pair (e1, e2) over 60 seconds:
+  expected_decline = time_elapsed_between_measurements
+  actual_decline = e1 - e2
+  deviation = |actual_decline - expected_decline|
+  
+  If deviation > 30 seconds → NOT STABLE → Don't display
+  
+If all pairs stable → DISPLAY estimate
+```
+
+**Behavior:**
+1. Temperature must be rising (> 0.1°C/min) for at least 20 seconds
+2. Estimates must be stable over 60 seconds (deviation < 30s)
+3. Only then is the remaining time displayed
+
+**Status:** ✅ Implemented
+
+### 8.7 Implemented Constraints
 - Maximum displayed remaining time: 720 minutes (12 hours)
 - Minimum data before calculation: 30 seconds
 - Displays "~" if heating rate not calculable

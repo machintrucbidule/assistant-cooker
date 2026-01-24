@@ -1,5 +1,5 @@
 /**
- * Assistant Cooker Card v0.0.37
+ * Assistant Cooker Card v0.0.38
  * Modular architecture with separate modules for state, rendering, events, and charting
  */
 import { StateManager } from './modules/state-manager.js';
@@ -11,7 +11,7 @@ import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
 import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.37";
+const CARD_VERSION = "0.0.38";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
@@ -24,8 +24,8 @@ class AssistantCookerCard extends HTMLElement {
     this._rendered = false;
     
     // Graph state
-    this._graphVisible = false;  // Hidden by default, shown only during cooking
-    this._userToggledGraph = false;
+    this._graphVisible = false;  // Hidden by default
+    this._lastState = null;  // Track last state
     
     // Timer for elapsed time update
     this._elapsedTimeInterval = null;
@@ -393,9 +393,6 @@ class AssistantCookerCard extends HTMLElement {
       mainContent.style.display = "none";
       if (batteryInfo) batteryInfo.style.display = "none";
       if (rssiInfo) rssiInfo.style.display = "none";
-      // Hide graph when disconnected
-      const chartDiv = this.shadowRoot.querySelector("#chart");
-      if (chartDiv) chartDiv.style.display = "none";
       return; // Nothing else to display
     }
     
@@ -570,23 +567,39 @@ class AssistantCookerCard extends HTMLElement {
     // Note: heating rate now displayed only in circle and info-blocks are removed
     
     
-    // Graph visibility based on state (if not user-toggled)
+    // Graph visibility based on state
+    const graphSection = this.shadowRoot.querySelector(".graph-section");
     const chartDiv = this.shadowRoot.querySelector("#chart");
     const graphToggle = this.shadowRoot.querySelector(".graph-toggle");
-    if (chartDiv && graphToggle) {
-      // Determine if graph should be visible based on state and config
-      const shouldShowByDefault = (state === "cooking") && this._config.show_graph;
+    const graphControls = this.shadowRoot.querySelector(".graph-controls");
+    
+    if (this._config.show_graph) {
+      // Show graph section when enabled
+      if (graphSection) graphSection.style.display = "block";
+      // Controls (button + dropdown) always visible when enabled
+      if (graphControls) graphControls.style.display = "inline-flex";
       
-      if (this._userToggledGraph) {
-        // User has toggled, respect their choice
-        chartDiv.style.display = this._graphVisible ? "" : "none";
-        graphToggle.textContent = this._graphVisible ? "▲" : "▼";
-      } else {
-        // Auto-control based on state
-        chartDiv.style.display = shouldShowByDefault ? "" : "none";
-        graphToggle.textContent = shouldShowByDefault ? "▲" : "▼";
-        this._graphVisible = shouldShowByDefault;
+      // Force visibility on init or state change
+      if (this._lastState === null || state !== this._lastState) {
+        // Premier chargement ou changement d'état: appliquer les règles
+        if (state === "cooking") {
+          this._graphVisible = true;
+        } else {
+          // disconnected, idle, done: masquer
+          this._graphVisible = false;
+        }
+        this._lastState = state;
       }
+      // Else: state didn't change, respect user's choice with toggle button
+      
+      // Apply current visibility
+      if (chartDiv && graphToggle) {
+        chartDiv.style.display = this._graphVisible ? "block" : "none";
+        graphToggle.textContent = this._graphVisible ? "▲" : "▼";
+      }
+    } else {
+      // Hide entire section if disabled
+      if (graphSection) graphSection.style.display = "none";
     }
   }
 
@@ -622,13 +635,12 @@ class AssistantCookerCard extends HTMLElement {
 
   _toggleGraph() {
     this._graphVisible = !this._graphVisible;
-    this._userToggledGraph = true;
     
     const chartDiv = this.shadowRoot.querySelector("#chart");
     const graphToggle = this.shadowRoot.querySelector(".graph-toggle");
     
     if (chartDiv) {
-      chartDiv.style.display = this._graphVisible ? "" : "none";
+      chartDiv.style.display = this._graphVisible ? "block" : "none";
     }
     
     if (graphToggle) {
@@ -676,9 +688,11 @@ class AssistantCookerCard extends HTMLElement {
   }
 
   _formatTime(isoString) {
-    if (!isoString) return "--";
+    if (!isoString || isoString === "unknown" || isoString === "unavailable") return "--";
     try {
       const d = new Date(isoString);
+      // Check if date is valid
+      if (isNaN(d.getTime())) return "--";
       return d.toLocaleTimeString(this._stateManager.getLang(), { hour: "2-digit", minute: "2-digit" });
     } catch {
       return "--";

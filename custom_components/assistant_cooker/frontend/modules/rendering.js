@@ -122,9 +122,9 @@ export class Renderer {
           </div>
 
           <div class="graph-section" ${config.show_graph === false ? 'style="display:none"' : ''}>
-            <div id="chart"></div>
+            <div id="chart" style="display:none"></div>
             <div class="graph-controls">
-              <button class="graph-toggle">▲</button>
+              <button class="graph-toggle">▼</button>
               <select class="span-select">
                 ${this.generateSpanOptions(lang)}
               </select>

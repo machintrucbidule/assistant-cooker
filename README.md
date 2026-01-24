@@ -4,10 +4,18 @@
 
 A Home Assistant custom integration for intelligent cooking monitoring with temperature probes.
 
+## Screenshots
+
+<p align="center">
+  <img src="images/img1.png" width="45%" alt="Assistant Cooker Card - Idle State"/>
+  <br/>
+  <img src="images/img2.png" width="45%" alt="Assistant Cooker Card - Cooking State"/>
+</p>
+
 ## Features
 
 - 🌡️ **Real-time Monitoring** - Track probe and ambient temperatures
-- ⏱️ **Time Estimation** - Automatic remaining time calculation based on heating rate
+- ⏱️ **Smart Time Estimation** - Automatic remaining time calculation with probe insertion detection and stability checks
 - 🎯 **Food Database** - Preset temperatures for beef, pork, poultry, lamb, fish, and more
 - 🔥 **Thermal Compensation** - Calculate optimal withdrawal temperature accounting for carryover cooking
 - 📊 **Historical Graph** - Visualize temperature curves over time
@@ -19,7 +27,7 @@ A Home Assistant custom integration for intelligent cooking monitoring with temp
 
 1. Open HACS in Home Assistant
 2. Click the 3-dot menu → Custom repositories
-3. Add `https://github.com/your-repo/assistant-cooker` as "Integration"
+3. Add `https://github.com/machintrucbidule/assistant-cooker` as "Integration"
 4. Search for "Assistant Cooker" and install
 5. Restart Home Assistant
 
@@ -50,8 +58,6 @@ entity_prefix: assistantcooker
 show_battery: true
 show_rssi: true
 show_graph: true
-show_ambient: true
-show_rate: true
 ```
 
 ## Usage
