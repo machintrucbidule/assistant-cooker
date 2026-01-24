@@ -76,7 +76,7 @@ export class ChartManager {
         stroke: { curve: "smooth", width: [3, 2, 2, 2], dashArray: [0, 5, 5, 0] },
         xaxis: { type: "datetime", labels: { datetimeUTC: false, datetimeFormatter: { hour: "HH:mm", minute: "HH:mm" }, style: { colors: isDark ? "#888" : "#666", fontSize: "9px" } } },
         yaxis: [
-          { seriesName: t("probe"), labels: { formatter: v => v?.toFixed(0) + "°", style: { colors: isDark ? "#888" : "#666", fontSize: "9px" } } },
+          { seriesName: [t("probe"), t("target"), t("projection")], labels: { formatter: v => v?.toFixed(0) + "°", style: { colors: isDark ? "#888" : "#666", fontSize: "9px" } } },
           { seriesName: t("ambient"), opposite: true, labels: { formatter: v => v?.toFixed(0) + "°", style: { colors: isDark ? "#888" : "#666", fontSize: "9px" } } }
         ],
         legend: { show: false },
@@ -188,15 +188,15 @@ export class ChartManager {
 
       // Wrap ApexCharts calls in try/catch - they can fail if chart is not fully ready
       try {
+        const t = (key) => this._stateManager.t(key);
         this._chart.updateOptions({ 
           xaxis: { min: xMin, max: xMax },
           yaxis: [
-            { min: minY, max: maxY, labels: { formatter: v => v?.toFixed(0) + "°" } },
-            { opposite: true, min: ambientMin, max: ambientMax, labels: { formatter: v => v?.toFixed(0) + "°" } }
+            { seriesName: [t("probe"), t("target"), t("projection")], min: minY, max: maxY, labels: { formatter: v => v?.toFixed(0) + "°" } },
+            { seriesName: t("ambient"), opposite: true, min: ambientMin, max: ambientMax, labels: { formatter: v => v?.toFixed(0) + "°" } }
           ]
         }, false, false);
 
-        const t = (key) => this._stateManager.t(key);
         this._chart.updateSeries([
           { name: t("probe"), data: visibleProbeData },
           { name: t("target"), data: targetData },
@@ -291,15 +291,15 @@ export class ChartManager {
 
       // Wrap ApexCharts calls in try/catch - they can fail if chart is not fully ready
       try {
+        const t = (key) => this._stateManager.t(key);
         this._chart.updateOptions({ 
           xaxis: { min: xMin, max: xMax },
           yaxis: [
-            { min: minY, max: maxY, labels: { formatter: v => v?.toFixed(0) + "°" } },
-            { opposite: true, min: ambientMin, max: ambientMax, labels: { formatter: v => v?.toFixed(0) + "°" } }
+            { seriesName: [t("probe"), t("target"), t("projection")], min: minY, max: maxY, labels: { formatter: v => v?.toFixed(0) + "°" } },
+            { seriesName: t("ambient"), opposite: true, min: ambientMin, max: ambientMax, labels: { formatter: v => v?.toFixed(0) + "°" } }
           ]
         }, false, false);
 
-        const t = (key) => this._stateManager.t(key);
         this._chart.updateSeries([
           { name: t("probe"), data: probeData },
           { name: t("target"), data: targetData },

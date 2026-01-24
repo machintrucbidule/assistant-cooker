@@ -1,7 +1,7 @@
 # Assistant Cooker - AI Development Guide
 
-**Current Version:** 0.0.36  
-**Last Updated:** 2026-01-20
+**Current Version:** 0.0.38  
+**Last Updated:** 2026-01-23
 
 This document provides essential context for an AI to understand, maintain, and extend this project.
 
@@ -84,6 +84,28 @@ this._entities = {
   progress: `sensor.${prefix}_progress`,
   heating_rate: `sensor.${prefix}_heating_rate`,
 };
+```
+
+### Cooking Time Calculator (v0.0.38+)
+The `CookingCalculator` class (`calculations.py`) includes intelligent estimate handling:
+
+**Probe Insertion Detection:**
+- Detects sudden temp drop (> 5°C in 30s) = probe inserted in cold food
+- Resets all history to avoid "history pollution"
+- Prevents absurd estimates (e.g., 1500 min)
+
+**Estimate Stability:**
+- Waits for 20s of stable temperature rise before calculating
+- Tracks estimate history over 60s
+- Only displays when deviation < 30s from expected natural decline
+- Formula: `deviation = |actual_decline - expected_decline|`
+
+**Key Parameters:**
+```python
+_temp_drop_threshold = -5.0       # °C drop to detect insertion
+_min_rising_duration_seconds = 20 # Wait for stable rise
+_stability_threshold_seconds = 30 # Max acceptable deviation
+_stability_period_seconds = 60    # Observation window
 ```
 
 ### Temperature Data Source (v0.0.36+)

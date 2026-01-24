@@ -149,7 +149,9 @@ export class EventHandler {
     });
 
     // Graph toggle
-    graphToggle?.addEventListener("click", () => {
+    graphToggle?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       if (callbacks.onGraphToggle) {
         callbacks.onGraphToggle();
       }
