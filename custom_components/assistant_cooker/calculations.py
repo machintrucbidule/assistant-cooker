@@ -169,20 +169,14 @@ class CookingCalculator:
         if raw_estimate > 1440:  # Max 24 hours
             raw_estimate = 1440.0
 
-        # Apply smoothing to prevent jumpy estimates
-        if self._last_estimate is not None and self._last_estimate > 0:
-            # Weighted average: more weight on new estimate as we get closer
-            progress = 1 - (remaining_temp / max(target_temp - 20, 1))  # Rough progress
-            weight = min(0.9, 0.3 + progress * 0.5)  # More responsive as we progress
-            smoothed = weight * raw_estimate + (1 - weight) * self._last_estimate
-            self._last_estimate = smoothed
-            final_estimate = round(smoothed, 1)
-        else:
-            self._last_estimate = raw_estimate
-            final_estimate = round(raw_estimate, 1)
+        # No smoothing - show raw calculated value
+        # This allows the estimate to oscillate around the true value
+        # rather than slowly descending from an overestimate
+        self._last_estimate = raw_estimate
+        final_estimate = round(raw_estimate, 1)
 
         # Step 4: We have a valid estimate - display it
-        # The temp drop detection + 20s rising requirement + smoothing 
+        # The temp drop detection + 20s rising requirement
         # already handle the edge cases. No need for additional delay.
         self._is_stable = True
         return final_estimate
