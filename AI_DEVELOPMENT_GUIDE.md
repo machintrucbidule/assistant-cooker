@@ -1,7 +1,7 @@
 # Assistant Cooker - AI Development Guide
 
-**Current Version:** 0.0.38  
-**Last Updated:** 2026-01-23
+**Current Version:** 0.0.39  
+**Last Updated:** 2026-01-30
 
 This document provides essential context for an AI to understand, maintain, and extend this project.
 
@@ -17,7 +17,7 @@ All code, comments, documentation, and commit messages **MUST be in English**. O
 ### Version Management
 - User decides when to increment version
 - Source of truth: `manifest.json`
-- Must sync: `manifest.json` + `assistant-cooker-card.js` (line 8: `CARD_VERSION`)
+- Must sync: `manifest.json` + `assistant-cooker-card.js` (line 14: `CARD_VERSION`)
 - Version markers in docs reflect when feature was first implemented (don't update retroactively)
 
 ### Documentation
@@ -113,6 +113,8 @@ Graph data comes from **attributes**, not entity state:
 - `sensor.assistantcooker_state.attributes.temp_history` - Array of `[["2026-01-20T16:39:29+00:00", 18.875], ...]`
 - `sensor.assistantcooker_state.attributes.ambient_history` - Same format
 - Conversion handled by `chart-manager.js` `updateFromAttributes()` method
+- **v0.0.39:** Graph only updates when data actually changes (hash-based detection)
+- **v0.0.39:** Data preserved after cooking stops (trimmed to last 2 min in idle)
 
 ### Food Selection Synchronization (v0.0.36 Fix)
 **Problem:** Re-renders destroy DOM before `setTimeout` callbacks execute.
@@ -218,6 +220,7 @@ const foodType = attrs.food_type || "";  // Format: "beef_steak"
 - Always 160px diameter, centered in middle column
 - Colors: <80% blue, 80-99% orange, 100% green
 - Font: 32px for temperature
+- **v0.0.39:** Progress ring updated in `updateProgressBar()` in `rendering.js`
 
 ### Header (v0.0.36)
 - State badge (clickable → state entity)

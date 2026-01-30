@@ -1,7 +1,7 @@
 # SPECIFICATIONS — Assistant Cooker
 
-**Current implemented version:** 0.0.38
-**Last updated:** 2026-01-23
+**Current implemented version:** 0.0.39
+**Last updated:** 2026-01-30
 
 ---
 
@@ -27,11 +27,11 @@ The integration and card are in the same repository. HACS installation automatic
 Separation of responsibilities:
 - `custom_components/assistant_cooker/`: Business logic, calculations, sensors, services
 - `custom_components/assistant_cooker/frontend/`: Lovelace card (display + interactions)
-  - `assistant-cooker-card.js`: Main orchestrator (~430 lines)
+  - `assistant-cooker-card.js`: Main orchestrator (~730 lines)
   - `modules/`: Modular architecture (v0.0.36+)
     - `state-manager.js`: State & translations (~150 lines)
     - `api-client.js`: HA API integration (~60 lines)
-    - `chart-manager.js`: ApexCharts lifecycle (~220 lines)
+    - `chart-manager.js`: ApexCharts lifecycle (~350 lines)
     - `rendering.js`: HTML/CSS generation (~300 lines)
     - `events.js`: Event handling (~200 lines)
   - `data/`: Food database & span options
@@ -202,8 +202,8 @@ For each configured device (example with name "meater"), the following entities 
 | food_category | str | Food category |
 | food_type | str | Food type |
 | food_doneness | str | Doneness level |
-| temp_history | list | History [timestamp, temp] probe |
-| ambient_history | list | History [timestamp, temp] ambient |
+| temp_history | list | History [timestamp, temp] probe (preserved after stop) |
+| ambient_history | list | History [timestamp, temp] ambient (preserved after stop) |
 
 ### 5.5 Units
 All temperatures respect Home Assistant system setting (°C or °F). Conversions are handled automatically.
@@ -733,17 +733,20 @@ ApexCharts integration directly in the card (no external dependency).
 - Processed by `chart-manager.js` module
 
 ### 12.3 Behavior
-- **Data source**: Home Assistant History API (not just current session)
-- **Update**: Throttle at 30 seconds (to allow tooltip interaction)
+- **Data source**: Attributes from state entity (`temp_history`, `ambient_history`)
+- **Update**: Only when data actually changes (hash-based detection)
 - **Disconnection**: Line stops, resumes on reconnection
+- **After stop**: Data preserved (trimmed to last 2 min in idle state)
 
 ### 12.4 Span Control
 
 Available options: Auto, 5min, 15min, 30min, 1h, 2h, 4h, 6h, 8h, 12h, 24h
 
-**Auto mode:**
-- If estimated duration known: span from start to estimated end (dynamic)
-- Otherwise: progressive steps (5min→10min→15min→30min→...)
+**Auto mode (v0.0.39):**
+- Span = elapsed cooking time + 5 minutes future
+- Recalculated every 2 minutes
+- Future display: 10 min by default, reduces when remaining time < 9 min
+- Idle state: fixed 5 min span
 
 **Manual mode:**
 - Fixed span as selected

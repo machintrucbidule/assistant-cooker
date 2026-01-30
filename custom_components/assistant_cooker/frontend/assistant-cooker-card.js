@@ -1,5 +1,5 @@
 /**
- * Assistant Cooker Card v0.0.38
+ * Assistant Cooker Card v0.0.39
  * Modular architecture with separate modules for state, rendering, events, and charting
  */
 import { StateManager } from './modules/state-manager.js';
@@ -11,7 +11,7 @@ import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
 import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.38";
+const CARD_VERSION = "0.0.39";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
@@ -247,8 +247,8 @@ class AssistantCookerCard extends HTMLElement {
     if (state === "cooking" && !prevCookingStart) {
       // Cooking just started - initialize the start time
       this._stateManager.setCookingStartTime(Date.now());
-    } else if (state !== "cooking" && prevCookingStart) {
-      // Cooking ended - reset the timer
+    } else if (state !== "cooking" && state !== "done" && prevCookingStart) {
+      // Cooking ended (back to idle/disconnected) - reset the timer
       this._stateManager.resetCookingStartTime();
     }
     
@@ -288,7 +288,7 @@ class AssistantCookerCard extends HTMLElement {
       probeTemp,
       attrs.withdrawal_temp,
       attrs.desired_temp,
-      null, // progress - need to calculate
+      progress,
       startTime,
       estimatedEnd,
       remainingTime,
@@ -296,7 +296,7 @@ class AssistantCookerCard extends HTMLElement {
       ambientTemp,
       attrs.carryover_enabled,
       attrs.probe_connected,
-      null  // disconnect_duration - need to find in attrs
+      attrs.disconnect_duration
     );
     
     // Update settings
@@ -311,13 +311,14 @@ class AssistantCookerCard extends HTMLElement {
     // Update buttons
     this._updateButtons(state);
     
-    // Update graph
+    // Update graph - use attributes directly, no API calls
     if (this._chartManager.isInitialized() && this._config.show_graph) {
-      this._chartManager.updateFromHistory(
+      this._chartManager.updateFromAttributes(
         attrs.withdrawal_temp,
         this._stateManager.getNumericState(this._entities.remaining_time),
         state,
-        this._entities
+        attrs.temp_history || [],
+        attrs.ambient_history || []
       );
     }
   }
@@ -478,33 +479,6 @@ class AssistantCookerCard extends HTMLElement {
       }
     }
     
-    // Update progress
-    const progressPercent = this.shadowRoot.querySelector(".progress-percent");
-    const progressCircle = this.shadowRoot.querySelector(".progress-ring-circle");
-    
-    if (progressPercent && progressCircle) {
-      if (state === "cooking") {
-        if (progress !== null && progress !== undefined) {
-          progressPercent.textContent = `${Math.round(progress)}%`;
-          const circumference = 2 * Math.PI * 70;
-          const offset = circumference - (progress / 100) * circumference;
-          progressCircle.style.strokeDashoffset = offset;
-          
-          // Color based on progress
-          if (progress < 33) progressCircle.style.stroke = "var(--primary-color)";
-          else if (progress < 66) progressCircle.style.stroke = "var(--warning-color)";
-          else progressCircle.style.stroke = "var(--success-color)";
-        } else {
-          progressPercent.textContent = "--";
-          progressCircle.style.strokeDashoffset = 439.82;
-        }
-        progressPercent.style.display = "";
-      } else {
-        progressPercent.style.display = "none";
-        progressCircle.style.strokeDashoffset = 439.82;
-      }
-    }
-    
     // Update times
     const timeElapsed = this.shadowRoot.querySelector(".time-elapsed");
     const timeRemaining = this.shadowRoot.querySelector(".time-remaining");
@@ -661,11 +635,13 @@ class AssistantCookerCard extends HTMLElement {
     const stateEntity = this._stateManager.getEntityState(this._entities.state);
     if (stateEntity) {
       const attrs = stateEntity.attributes || {};
-      this._chartManager.updateFromHistory(
+      // Force refresh with new span using attributes
+      this._chartManager.updateFromAttributes(
         attrs.withdrawal_temp,
         this._stateManager.getNumericState(this._entities.remaining_time),
         stateEntity.state,
-        this._entities
+        attrs.temp_history || [],
+        attrs.ambient_history || []
       );
     }
   }

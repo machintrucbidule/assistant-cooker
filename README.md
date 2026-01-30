@@ -1,6 +1,9 @@
 # Assistant Cooker
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![GitHub Release](https://img.shields.io/github/v/release/machintrucbidule/assistant-cooker?style=for-the-badge)](https://github.com/machintrucbidule/assistant-cooker/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/machintrucbidule/assistant-cooker/total?style=for-the-badge)](https://github.com/machintrucbidule/assistant-cooker/releases)
+[![License](https://img.shields.io/github/license/machintrucbidule/assistant-cooker?style=for-the-badge)](LICENSE)
 
 A Home Assistant custom integration for intelligent cooking monitoring with temperature probes.
 

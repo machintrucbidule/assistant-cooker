@@ -312,6 +312,7 @@ export class Renderer {
     const container = shadowRoot.querySelector('.progress-bar-container');
     const fill = shadowRoot.querySelector('.progress-bar-fill');
     const text = shadowRoot.querySelector('.progress-bar-text');
+    const progressCircle = shadowRoot.querySelector('.progress-ring-circle');
 
     if (!container || !fill || !text) return;
 
@@ -319,7 +320,13 @@ export class Renderer {
     const showProgress = state === 'cooking' || state === 'done';
     container.style.display = showProgress ? 'flex' : 'none';
 
-    if (!showProgress) return;
+    if (!showProgress) {
+      // Reset circle when not cooking
+      if (progressCircle) {
+        progressCircle.style.strokeDashoffset = '439.82';
+      }
+      return;
+    }
 
     // Ensure progress is 0-100
     const percent = Math.max(0, Math.min(100, progress || 0));
@@ -327,6 +334,20 @@ export class Renderer {
     // Update width and text - format as 2 digits with leading zero
     fill.style.width = percent + '%';
     text.textContent = String(Math.round(percent)).padStart(2, '0') + '%';
+
+    // Update progress circle (ring around probe temp)
+    if (progressCircle) {
+      const circumference = 2 * Math.PI * 70; // 439.82
+      const offset = circumference - (percent / 100) * circumference;
+      progressCircle.style.strokeDashoffset = offset.toString();
+      
+      // Color based on progress
+      let strokeColor;
+      if (percent < 33) strokeColor = 'var(--primary-color)';
+      else if (percent < 66) strokeColor = 'var(--warning-color)';
+      else strokeColor = 'var(--success-color)';
+      progressCircle.style.stroke = strokeColor;
+    }
 
     // Update color classes based on percentage
     fill.classList.remove('low', 'medium', 'high', 'disabled');

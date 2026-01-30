@@ -348,17 +348,30 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
         if self.config.get(CONF_AMBIENT_SENSOR):
             ambient_temp = self._get_sensor_value(self.config[CONF_AMBIENT_SENSOR])
         
+        # Filter history to only include data since cooking started
+        # Never use pre-cooking data for calculations
+        temp_history = self._temp_history
+        ambient_history = self._ambient_history
+        if self._start_time:
+            temp_history = [(t, v) for t, v in self._temp_history if t >= self._start_time]
+            if self._ambient_history:
+                ambient_history = [(t, v) for t, v in self._ambient_history if t >= self._start_time]
+        
         return self._calculator.calculate_remaining_time(
             current_temp=probe_temp,
             target_temp=self._withdrawal_temp,
-            temp_history=self._temp_history,
+            temp_history=temp_history,
             ambient_temp=ambient_temp,
-            ambient_history=self._ambient_history,
+            ambient_history=ambient_history,
         )
 
     def _calculate_heating_rate(self) -> float | None:
         """Calculate current heating rate in °C/min."""
-        return self._calculator.calculate_heating_rate(self._temp_history)
+        # Filter history to only include data since cooking started
+        temp_history = self._temp_history
+        if self._start_time:
+            temp_history = [(t, v) for t, v in self._temp_history if t >= self._start_time]
+        return self._calculator.calculate_heating_rate(temp_history)
 
     def _calculate_dynamic_carryover(self) -> float:
         """
@@ -609,8 +622,9 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
         self._cooking_end_time = None
         self._notified_5min = False
         self._notified_done = False
-        self._temp_history = []
-        self._ambient_history = []
+        # Don't clear temp history - let it be cleared naturally by the 2-minute idle cutoff
+        # self._temp_history = []
+        # self._ambient_history = []
         self._disconnect_start = None
 
     def set_target_temp(self, temperature: float) -> None:
