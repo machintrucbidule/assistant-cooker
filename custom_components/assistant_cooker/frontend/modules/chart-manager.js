@@ -192,7 +192,9 @@ export class ChartManager {
       const visibleAmbientData = ambientData.filter(d => d.x >= xMin && d.x <= now);
 
       // Check if we need a full refresh (every 2 minutes or on span change)
-      const needsFullRefresh = this._forceRefresh || (now - this._lastFullRefresh >= 120000);
+      // Also force refresh if probe data just appeared (was empty, now has data)
+      const probeDataJustAppeared = this._cachedProbeData.length === 0 && visibleProbeData.length > 0;
+      const needsFullRefresh = this._forceRefresh || probeDataJustAppeared || (now - this._lastFullRefresh >= 120000);
 
       if (needsFullRefresh) {
         // Full refresh: update everything including axes

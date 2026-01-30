@@ -11,7 +11,7 @@ import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
 import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.41";
+const CARD_VERSION = "0.0.42";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
