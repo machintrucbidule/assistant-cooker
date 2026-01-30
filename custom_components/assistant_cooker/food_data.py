@@ -26,6 +26,45 @@ from typing import Final
 FOOD_DATABASE: Final[dict] = {
     "beef": {
         "foods": {
+            "filet": {
+                "doneness": {
+                    "blue": 50,
+                    "rare": 55,
+                    "medium": 60,
+                    "well_done": 66,
+                },
+                "carryover_type": "beef_steak",
+            },
+            "roast": {
+                "doneness": {
+                    "blue": 50,
+                    "rare": 55,
+                    "medium": 60,
+                    "well_done": 66,
+                },
+                "carryover_type": "beef_roast",
+            },
+            "rib": {
+                "doneness": {
+                    "blue": 50,
+                    "rare": 55,
+                    "medium": 60,
+                    "well_done": 66,
+                },
+                "carryover_type": "beef_roast",
+            },
+            "chuck_roast": {
+                "doneness": {
+                    "well_done": 60,
+                },
+                "carryover_type": "beef_roast",
+            },
+            "beef_roulade": {
+                "doneness": {
+                    "well_done": 66,
+                },
+                "carryover_type": "beef_roast",
+            },
             "steak": {
                 "doneness": {
                     "blue": 46,
@@ -34,35 +73,6 @@ FOOD_DATABASE: Final[dict] = {
                     "medium": 57,
                     "medium_well": 63,
                     "well_done": 68,
-                },
-                "carryover_type": "beef_steak",
-            },
-            "roast": {
-                "doneness": {
-                    "rare": 52,
-                    "medium_rare": 55,
-                    "medium": 57,
-                    "medium_well": 63,
-                    "well_done": 68,
-                },
-                "carryover_type": "beef_roast",
-            },
-            "prime_rib": {
-                "doneness": {
-                    "rare": 52,
-                    "medium_rare": 55,
-                    "medium": 57,
-                    "medium_well": 63,
-                    "well_done": 68,
-                },
-                "carryover_type": "beef_roast",
-            },
-            "filet_mignon": {
-                "doneness": {
-                    "rare": 52,
-                    "medium_rare": 55,
-                    "medium": 57,
-                    "medium_well": 63,
                 },
                 "carryover_type": "beef_steak",
             },
@@ -101,148 +111,42 @@ FOOD_DATABASE: Final[dict] = {
             },
         },
     },
-    "pork": {
+    "veal": {
         "foods": {
-            "chop": {
+            "filet_mignon": {
                 "doneness": {
-                    "medium": 63,
-                    "well_done": 71,
-                },
-                "carryover_type": "pork_other",
-            },
-            "tenderloin": {
-                "doneness": {
-                    "medium": 63,
-                    "well_done": 68,
-                },
-                "carryover_type": "pork_other",
-            },
-            "roast": {
-                "doneness": {
-                    "medium": 63,
-                    "well_done": 71,
-                },
-                "carryover_type": "pork_roast",
-            },
-            "ribs": {
-                "doneness": {
-                    "tender": 88,
-                    "fall_off_bone": 93,
-                },
-                "carryover_type": "pork_other",
-            },
-            "pulled_pork": {
-                "doneness": {
-                    "pulled": 93,
-                },
-                "carryover_type": "pork_roast",
-            },
-            "ham": {
-                "doneness": {
-                    "reheated": 60,
-                },
-                "carryover_type": "pork_roast",
-            },
-            "belly": {
-                "doneness": {
-                    "tender": 77,
-                    "very_tender": 85,
-                },
-                "carryover_type": "pork_other",
-            },
-        },
-    },
-    "poultry": {
-        "foods": {
-            "chicken_whole": {
-                "doneness": {
-                    "done": 74,
-                },
-                "carryover_type": "poultry",
-            },
-            "chicken_breast": {
-                "doneness": {
-                    "done": 74,
-                },
-                "carryover_type": "poultry",
-            },
-            "chicken_thigh": {
-                "doneness": {
-                    "done": 74,
-                    "tender": 76,
-                },
-                "carryover_type": "poultry",
-            },
-            "turkey_whole": {
-                "doneness": {
-                    "done": 74,
-                },
-                "carryover_type": "poultry",
-            },
-            "turkey_breast": {
-                "doneness": {
-                    "done": 74,
-                },
-                "carryover_type": "poultry",
-            },
-            "duck_breast": {
-                "doneness": {
-                    "pink": 57,
+                    "medium_rare": 59,
                     "medium": 63,
                 },
-                "carryover_type": "poultry",
+                "carryover_type": "veal",
             },
-            "duck_leg_confit": {
+            "rump_roast": {
                 "doneness": {
-                    "confit": 82,
+                    "medium": 61,
                 },
-                "carryover_type": "poultry",
-            },
-        },
-    },
-    "lamb": {
-        "foods": {
-            "leg": {
-                "doneness": {
-                    "rare": 52,
-                    "pink": 57,
-                    "medium": 63,
-                    "well_done": 68,
-                },
-                "carryover_type": "lamb_roast",
-            },
-            "chops": {
-                "doneness": {
-                    "rare": 52,
-                    "pink": 57,
-                    "medium": 63,
-                },
-                "carryover_type": "lamb_other",
+                "carryover_type": "veal",
             },
             "rack": {
                 "doneness": {
-                    "rare": 52,
-                    "pink": 57,
+                    "medium_rare": 55,
                     "medium": 63,
+                    "well_done": 66,
                 },
-                "carryover_type": "lamb_other",
-            },
-            "shank": {
-                "doneness": {
-                    "braised": 85,
-                },
-                "carryover_type": "lamb_other",
+                "carryover_type": "veal",
             },
             "shoulder": {
                 "doneness": {
-                    "pulled": 88,
+                    "medium": 63,
+                    "well_done": 66,
                 },
-                "carryover_type": "lamb_roast",
+                "carryover_type": "veal",
             },
-        },
-    },
-    "veal": {
-        "foods": {
+            "veal_roulade": {
+                "doneness": {
+                    "well_done": 66,
+                },
+                "carryover_type": "veal",
+            },
             "roast": {
                 "doneness": {
                     "medium": 63,
@@ -264,27 +168,278 @@ FOOD_DATABASE: Final[dict] = {
             },
         },
     },
+    "lamb": {
+        "foods": {
+            "rack": {
+                "doneness": {
+                    "medium": 61,
+                },
+                "carryover_type": "lamb_other",
+            },
+            "saddle": {
+                "doneness": {
+                    "medium_rare": 60,
+                    "medium": 61,
+                },
+                "carryover_type": "lamb_roast",
+            },
+            "leg": {
+                "doneness": {
+                    "medium_rare": 60,
+                    "medium": 61,
+                    "well_done": 66,
+                },
+                "carryover_type": "lamb_roast",
+            },
+            "shoulder": {
+                "doneness": {
+                    "medium": 61,
+                    "well_done": 66,
+                },
+                "carryover_type": "lamb_roast",
+            },
+            "chops": {
+                "doneness": {
+                    "rare": 52,
+                    "pink": 57,
+                    "medium": 63,
+                },
+                "carryover_type": "lamb_other",
+            },
+            "shank": {
+                "doneness": {
+                    "braised": 85,
+                },
+                "carryover_type": "lamb_other",
+            },
+        },
+    },
+    "pork": {
+        "foods": {
+            "tenderloin": {
+                "doneness": {
+                    "medium": 61,
+                },
+                "carryover_type": "pork_other",
+            },
+            "rack": {
+                "doneness": {
+                    "well_done": 70,
+                },
+                "carryover_type": "pork_other",
+            },
+            "roast": {
+                "doneness": {
+                    "well_done": 70,
+                },
+                "carryover_type": "pork_roast",
+            },
+            "ham": {
+                "doneness": {
+                    "well_done": 70,
+                },
+                "carryover_type": "pork_roast",
+            },
+            "chop": {
+                "doneness": {
+                    "medium": 63,
+                    "well_done": 71,
+                },
+                "carryover_type": "pork_other",
+            },
+            "ribs": {
+                "doneness": {
+                    "tender": 88,
+                    "fall_off_bone": 93,
+                },
+                "carryover_type": "pork_other",
+            },
+            "pulled_pork": {
+                "doneness": {
+                    "pulled": 93,
+                },
+                "carryover_type": "pork_roast",
+            },
+            "belly": {
+                "doneness": {
+                    "tender": 77,
+                    "very_tender": 85,
+                },
+                "carryover_type": "pork_other",
+            },
+        },
+    },
+    "poultry": {
+        "foods": {
+            "chicken_breast": {
+                "doneness": {
+                    "done": 69,
+                },
+                "carryover_type": "poultry",
+            },
+            "chicken_thigh": {
+                "doneness": {
+                    "done": 71,
+                },
+                "carryover_type": "poultry",
+            },
+            "stuffed_poultry": {
+                "doneness": {
+                    "medium": 69,
+                    "well_done": 73,
+                },
+                "carryover_type": "poultry",
+            },
+            "whole_poultry": {
+                "doneness": {
+                    "medium": 66,
+                    "well_done": 71,
+                },
+                "carryover_type": "poultry",
+            },
+            "guinea_fowl_breast": {
+                "doneness": {
+                    "done": 70,
+                },
+                "carryover_type": "poultry",
+            },
+            "guinea_fowl_thigh": {
+                "doneness": {
+                    "done": 74,
+                },
+                "carryover_type": "poultry",
+            },
+            "chicken_whole": {
+                "doneness": {
+                    "done": 74,
+                },
+                "carryover_type": "poultry",
+            },
+            "turkey_whole": {
+                "doneness": {
+                    "done": 74,
+                },
+                "carryover_type": "poultry",
+            },
+            "turkey_breast": {
+                "doneness": {
+                    "done": 74,
+                },
+                "carryover_type": "poultry",
+            },
+        },
+    },
+    "duck": {
+        "foods": {
+            "breast": {
+                "doneness": {
+                    "medium": 59,
+                },
+                "carryover_type": "duck",
+            },
+            "thigh": {
+                "doneness": {
+                    "done": 71,
+                },
+                "carryover_type": "duck",
+            },
+            "confit": {
+                "doneness": {
+                    "confit": 79,
+                },
+                "carryover_type": "duck",
+            },
+        },
+    },
+    "game": {
+        "foods": {
+            "venison": {
+                "doneness": {
+                    "medium_rare": 60,
+                    "medium": 61,
+                    "well_done": 71,
+                },
+                "carryover_type": "other",
+            },
+            "wild_boar_thigh": {
+                "doneness": {
+                    "medium": 71,
+                    "well_done": 77,
+                },
+                "carryover_type": "other",
+            },
+            "rabbit": {
+                "doneness": {
+                    "done": 67,
+                },
+                "carryover_type": "other",
+            },
+        },
+    },
+    "foie_gras": {
+        "foods": {
+            "foie_gras": {
+                "doneness": {
+                    "rare": 58,
+                    "mi_cuit": 63,
+                    "medium": 72,
+                },
+                "carryover_type": "foie_gras",
+            },
+        },
+    },
     "fish": {
         "foods": {
+            "cod": {
+                "doneness": {
+                    "medium": 51,
+                    "well_done": 54,
+                },
+                "carryover_type": "fish",
+            },
+            "monkfish": {
+                "doneness": {
+                    "medium": 52,
+                    "well_done": 54,
+                },
+                "carryover_type": "fish",
+            },
+            "pike_perch": {
+                "doneness": {
+                    "medium": 51,
+                    "well_done": 54,
+                },
+                "carryover_type": "fish",
+            },
             "salmon": {
                 "doneness": {
-                    "mi_cuit": 46,
-                    "medium": 52,
-                    "well_done": 60,
+                    "rare": 40,
+                    "medium_rare": 48,
+                    "medium": 50,
+                    "well_done": 52,
                 },
                 "carryover_type": "fish",
             },
             "tuna": {
                 "doneness": {
-                    "rare": 43,
-                    "medium": 52,
+                    "rare": 42,
+                    "medium_rare": 48,
+                    "medium": 50,
+                    "well_done": 52,
                 },
                 "carryover_type": "fish",
             },
-            "cod": {
+            "swordfish": {
                 "doneness": {
-                    "medium": 55,
-                    "well_done": 60,
+                    "medium_rare": 48,
+                    "medium": 50,
+                    "well_done": 52,
+                },
+                "carryover_type": "fish",
+            },
+            "whole_fish": {
+                "doneness": {
+                    "medium": 49,
                 },
                 "carryover_type": "fish",
             },
@@ -315,51 +470,47 @@ FOOD_DATABASE: Final[dict] = {
             },
         },
     },
-    "game": {
-        "foods": {
-            "wild_boar": {
-                "doneness": {
-                    "medium": 63,
-                    "well_done": 68,
-                },
-                "carryover_type": "other",
-            },
-            "venison": {
-                "doneness": {
-                    "rare": 52,
-                    "pink": 57,
-                    "medium": 63,
-                },
-                "carryover_type": "other",
-            },
-            "rabbit": {
-                "doneness": {
-                    "medium": 63,
-                    "well_done": 71,
-                },
-                "carryover_type": "other",
-            },
-        },
-    },
     "other": {
         "foods": {
-            "egg_soft_boiled": {
+            "squash": {
                 "doneness": {
-                    "soft": 64,
+                    "tender": 85,
+                    "fondant": 90,
                 },
                 "carryover_type": "other",
             },
-            "egg_poached": {
+            "meat_terrine": {
                 "doneness": {
-                    "perfect": 67,
+                    "medium": 72,
+                    "well_done": 78,
                 },
-                "carryover_type": "other",
+                "carryover_type": "terrine",
             },
-            "egg_hard_boiled": {
+            "fish_terrine": {
                 "doneness": {
-                    "hard": 77,
+                    "medium": 65,
+                    "well_done": 70,
                 },
-                "carryover_type": "other",
+                "carryover_type": "terrine",
+            },
+            "brioche": {
+                "doneness": {
+                    "baked": 92,
+                    "well_done": 96,
+                },
+                "carryover_type": "pastry",
+            },
+            "chocolate_lava_dark": {
+                "doneness": {
+                    "runny": 65,
+                },
+                "carryover_type": "pastry",
+            },
+            "chocolate_lava_milk": {
+                "doneness": {
+                    "runny": 70,
+                },
+                "carryover_type": "pastry",
             },
         },
     },

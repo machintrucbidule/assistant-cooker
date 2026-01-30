@@ -26,7 +26,11 @@ class CookingCalculator:
         
         # Detection of actual cooking start (temp rising)
         self._min_rising_duration_seconds = 20  # Stable rise before calculations
-        
+
+        # Minimum heating rate for reliable estimates
+        self._min_heating_rate_for_display = 0.3  # °C/min - below this, estimates are unreliable
+        self._max_wait_for_rate_minutes = 10  # After this, display anyway (low temp cooking)
+
         # Stability threshold for display (CONFIGURABLE)
         self._stability_threshold_seconds = 30  # Max acceptable deviation
         self._stability_period_seconds = 60  # Observation period
@@ -127,10 +131,19 @@ class CookingCalculator:
         # Step 3: Check minimum rising duration
         if self._cooking_start_time is None:
             self._cooking_start_time = now
-        
+
         rising_duration = (now - self._cooking_start_time).total_seconds()
         if rising_duration < self._min_rising_duration_seconds:
             return None  # Wait for stable rise
+
+        # Step 4: Check minimum heating rate for reliable estimates
+        # Don't display until rate >= 0.3°C/min, unless 10 minutes have passed
+        current_rate = self.calculate_heating_rate(temp_history)
+        elapsed_minutes = rising_duration / 60
+
+        if current_rate is not None and current_rate < self._min_heating_rate_for_display:
+            if elapsed_minutes < self._max_wait_for_rate_minutes:
+                return None  # Wait for heating rate to stabilize
 
         remaining_temp = target_temp - current_temp
         raw_estimate = None

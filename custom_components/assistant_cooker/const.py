@@ -65,10 +65,14 @@ CARRYOVER_TYPE_WEIGHTS: Final[dict[str, float]] = {
     "pork_roast": 1.3,      # Medium-large mass
     "pork_other": 0.9,      # Variable, medium
     "poultry": 0.7,         # Lower density, less retention
+    "duck": 0.9,            # Similar to poultry but fattier
     "fish": 0.5,            # Low mass, quick heat loss
     "lamb_roast": 1.4,      # Similar to beef roast
     "lamb_other": 0.8,      # Similar to steak
     "veal": 1.0,            # Medium
+    "foie_gras": 0.5,       # Small, low carryover
+    "terrine": 0.3,         # Very low carryover (served cold often)
+    "pastry": 0.2,          # Minimal carryover
     "other": 1.0,           # Default baseline
 }
 

@@ -370,86 +370,100 @@ Category
 
 **Status:** ✅ Implemented
 
-### 9.2 Data (temperatures in °C)
+### 9.2 Categories (v0.0.42+)
 
-#### Beef
+| Category | Description |
+|----------|-------------|
+| Beef | Bœuf - Filet, rôti, côte, paleron, paupiettes, steak, ribeye, burger, brisket |
+| Veal | Veau - Filet mignon, quasi, carré, épaule, paupiettes, rôti, côtelette, escalope |
+| Lamb | Agneau - Carré, selle, gigot, épaule, côtelettes, souris |
+| Pork | Porc - Filet mignon, carré, rôti, jambon, côtelette, ribs, pulled pork, poitrine |
+| Poultry | Volaille - Blanc/cuisse de poulet, volaille farcie/entière, pintade, dinde |
+| Duck | Canard - Magret, cuisse, confit |
+| Game | Gibier - Cerf/chevreuil, sanglier, lapin |
+| Foie Gras | Foie gras - Saignant, mi-cuit, à point |
+| Fish | Poisson - Cabillaud, lotte, sandre, saumon, thon, espadon, bar, flétan, crevettes, homard |
+| Other | Divers - Courge, terrines, brioche, coulants au chocolat |
+
+### 9.3 Data (temperatures in °C)
+
+#### Beef (principales entrées)
 | Food | Doneness | Temperature |
 |------|----------|-------------|
-| Steak | Blue | 46 |
-| Steak | Rare | 52 |
-| Steak | Medium Rare | 55 |
-| Steak | Medium | 57 |
-| Steak | Medium Well | 63 |
-| Steak | Well Done | 68 |
-| Roast | Rare | 52 |
-| Roast | Medium Rare | 55 |
-| Roast | Medium | 57 |
-| Roast | Medium Well | 63 |
-| Roast | Well Done | 68 |
-| Burger | Medium | 63 |
-| Burger | Well Done | 71 |
-| Burger | Safe | 71 |
-| Prime Rib | Rare | 52 |
-| Prime Rib | Medium Rare | 55 |
-| Prime Rib | Medium | 57 |
-| Prime Rib | Medium Well | 63 |
-| Prime Rib | Well Done | 68 |
+| Filet | Blue/Rare/Medium/Well Done | 50/55/60/66 |
+| Roast | Blue/Rare/Medium/Well Done | 50/55/60/66 |
+| Rib | Blue/Rare/Medium/Well Done | 50/55/60/66 |
+| Chuck Roast (Paleron) | Well Done | 60 |
+| Beef Roulade (Paupiettes) | Well Done | 66 |
+| Steak | Blue→Well Done | 46-68 |
+| Burger | Medium/Well Done | 63/71 |
 | Brisket | Pulled | 93 |
-
-#### Pork
-| Food | Doneness | Temperature |
-|------|----------|-------------|
-| Chop | Medium | 63 |
-| Chop | Well done | 71 |
-| Tenderloin | Medium | 63 |
-| Tenderloin | Well done | 68 |
-| Roast | Medium | 63 |
-| Roast | Well done | 71 |
-| Ribs | Tender | 88 |
-| Pulled pork | Pulled | 93 |
-| Ham | Reheated | 60 |
-
-#### Poultry
-| Food | Doneness | Temperature |
-|------|----------|-------------|
-| Whole Chicken | Done | 74 |
-| Chicken Breast | Done | 74 |
-| Chicken Thigh | Done | 74 |
-| Chicken Thigh | Tender | 76 |
-| Turkey Breast | Done | 74 |
-| Duck Breast | Pink | 57 |
-| Duck Breast | Medium | 63 |
-
-#### Lamb
-| Food | Doneness | Temperature |
-|------|----------|-------------|
-| Leg | Rare | 52 |
-| Leg | Pink | 57 |
-| Leg | Medium | 63 |
-| Leg | Well Done | 68 |
-| Chops | Rare | 52 |
-| Chops | Pink | 57 |
-| Chops | Medium | 63 |
-| Rack | Rare | 52 |
-| Rack | Pink | 57 |
-| Rack | Medium | 63 |
 
 #### Veal
 | Food | Doneness | Temperature |
 |------|----------|-------------|
-| Roast | Medium | 63 |
-| Roast | Well done | 68 |
-| Chop | Medium | 63 |
-| Cutlet | Medium | 63 |
+| Filet Mignon | Medium Rare/Medium | 59/63 |
+| Rump Roast (Quasi) | Medium | 61 |
+| Rack (Carré) | Medium Rare/Medium/Well Done | 55/63/66 |
+| Shoulder (Épaule) | Medium/Well Done | 63/66 |
 
-#### Fish
+#### Lamb
 | Food | Doneness | Temperature |
 |------|----------|-------------|
-| Salmon | Mi-Cuit | 46 |
-| Salmon | Medium | 52 |
-| Salmon | Well Done | 60 |
-| Tuna | Rare | 43 |
-| Tuna | Medium | 52 |
+| Rack (Carré) | Medium | 61 |
+| Saddle (Selle) | Medium Rare/Medium | 60/61 |
+| Leg (Gigot) | Medium Rare/Medium/Well Done | 60/61/66 |
+| Shoulder (Épaule) | Medium/Well Done | 61/66 |
+
+#### Pork
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Tenderloin | Medium | 61 |
+| Rack (Carré) | Well Done | 70 |
+| Roast | Well Done | 70 |
+| Ham | Well Done | 70 |
+| Ribs | Tender/Fall off Bone | 88/93 |
+
+#### Poultry
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Chicken Breast | Done | 69 |
+| Chicken Thigh | Done | 71 |
+| Stuffed Poultry | Medium/Well Done | 69/73 |
+| Whole Poultry | Medium/Well Done | 66/71 |
+| Guinea Fowl Breast | Done | 70 |
+| Guinea Fowl Thigh | Done | 74 |
+
+#### Duck (NEW)
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Breast (Magret) | Medium | 59 |
+| Thigh (Cuisse) | Done | 71 |
+| Confit | Confit | 79 |
+
+#### Foie Gras (NEW)
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Foie Gras | Rare/Mi-Cuit/Medium | 58/63/72 |
+
+#### Fish (principales entrées)
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Cod (Cabillaud) | Medium/Well Done | 51/54 |
+| Monkfish (Lotte) | Medium/Well Done | 52/54 |
+| Salmon | Rare/Medium Rare/Medium/Well Done | 40/48/50/52 |
+| Tuna | Rare/Medium Rare/Medium/Well Done | 42/48/50/52 |
+| Swordfish | Medium Rare/Medium/Well Done | 48/50/52 |
+
+#### Other (NEW items)
+| Food | Doneness | Temperature |
+|------|----------|-------------|
+| Squash (Courge) | Tender/Fondant | 85/90 |
+| Meat Terrine | Medium/Well Done | 72/78 |
+| Fish Terrine | Medium/Well Done | 65/70 |
+| Brioche | Baked/Well Done | 92/96 |
+| Chocolate Lava (Dark) | Runny | 65 |
+| Chocolate Lava (Milk/White) | Runny | 70 |
 
 **Database Synchronization:**
 - **Status:** ✅ Automated (v0.0.35)
@@ -458,9 +472,8 @@ Category
 - **Source of truth:** `food_data.py` (Python backend)
 - **Generation:** Run `python scripts/generate_food_database.py` after modifying `food_data.py`
 - **Why:** Eliminates manual synchronization errors and duplication
-- Previous issues (v0.0.34): Manual sync led to temperature mismatches (duck breast, lamb, etc.)
 
-### 9.3 Extensibility
+### 9.4 Extensibility
 The architecture allows easy addition of new foods via JSON translation files. Planned for future "favorites" custom feature.
 
 ---

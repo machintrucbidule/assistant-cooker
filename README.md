@@ -18,7 +18,7 @@ A Home Assistant custom integration for intelligent cooking monitoring with temp
 
 - 🌡️ **Real-time Monitoring** - Track probe and ambient temperatures
 - ⏱️ **Smart Time Estimation** - Automatic remaining time calculation with probe insertion detection and stability checks
-- 🎯 **Food Database** - Preset temperatures for beef, pork, poultry, lamb, fish, and more
+- 🎯 **Food Database** - Preset temperatures for beef, veal, lamb, pork, poultry, duck, game, foie gras, fish, and more
 - 🔥 **Thermal Compensation** - Calculate optimal withdrawal temperature accounting for carryover cooking
 - 📊 **Historical Graph** - Visualize temperature curves over time
 - 🌍 **Multi-language** - 21 languages supported
@@ -75,11 +75,11 @@ show_graph: true
 
 ### Selecting Food
 
-1. Choose a category (Beef, Pork, etc.)
-2. Choose the food (Steak, Roast, etc.)
-3. Choose doneness level (Rare, Medium, etc.)
+1. Choose a category (Beef, Veal, Lamb, Pork, Poultry, Duck, Game, Foie Gras, Fish, Other)
+2. Choose the food (Filet, Roast, Breast, etc.)
+3. Choose doneness level (Rare, Medium, Well Done, etc.)
 
-Target temperature is automatically configured.
+Target temperature is automatically configured based on the food database.
 
 ### Manual Mode
 
