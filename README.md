@@ -1,6 +1,5 @@
 # Assistant Cooker
 
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 [![GitHub Release](https://img.shields.io/github/v/release/machintrucbidule/assistant-cooker?style=for-the-badge)](https://github.com/machintrucbidule/assistant-cooker/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/machintrucbidule/assistant-cooker/total?style=for-the-badge)](https://github.com/machintrucbidule/assistant-cooker/releases)
 [![License](https://img.shields.io/github/license/machintrucbidule/assistant-cooker?style=for-the-badge)](LICENSE)
@@ -10,9 +9,9 @@ A Home Assistant custom integration for intelligent cooking monitoring with temp
 ## Screenshots
 
 <p align="center">
-  <img src="images/img1.png" width="45%" alt="Assistant Cooker Card - Idle State"/>
+  <img src="https://raw.githubusercontent.com/machintrucbidule/assistant-cooker/main/images/img1.png" width="45%" alt="Assistant Cooker Card - Idle State"/>
   <br/>
-  <img src="images/img2.png" width="45%" alt="Assistant Cooker Card - Cooking State"/>
+  <img src="https://raw.githubusercontent.com/machintrucbidule/assistant-cooker/main/images/img2.png" width="45%" alt="Assistant Cooker Card - Cooking State"/>
 </p>
 
 ## Features

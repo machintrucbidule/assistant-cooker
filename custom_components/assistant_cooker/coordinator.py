@@ -542,8 +542,9 @@ class AssistantCookerCoordinator(DataUpdateCoordinator):
             disconnect_duration = (dt_util.utcnow() - self._disconnect_start).total_seconds()
 
         # Convert history to serializable format for frontend
-        temp_history_data = [(t.isoformat(), v) for t, v in self._temp_history[-500:]]  # Limit to last 500 points
-        ambient_history_data = [(t.isoformat(), v) for t, v in self._ambient_history[-500:]]
+        # Limit to 200 points max to stay under 16KB attribute limit
+        temp_history_data = [(t.isoformat(), round(v, 2)) for t, v in self._temp_history[-200:]]
+        ambient_history_data = [(t.isoformat(), round(v, 2)) for t, v in self._ambient_history[-200:]]
 
         return {
             "state": self._state,

@@ -1,6 +1,5 @@
 {
   "name": "Assistant Cooker",
-  "hacs": "integration",
   "render_readme": true,
-  "icon": "images/icon.png"
+  "homeassistant": "2024.1.0"
 }
