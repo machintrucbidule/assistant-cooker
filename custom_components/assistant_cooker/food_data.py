@@ -28,28 +28,28 @@ FOOD_DATABASE: Final[dict] = {
         "foods": {
             "filet": {
                 "doneness": {
-                    "blue": 50,
-                    "rare": 55,
-                    "medium": 60,
-                    "well_done": 66,
+                    "blue": 48,
+                    "rare": 52,
+                    "medium": 58,
+                    "well_done": 65,
                 },
                 "carryover_type": "beef_steak",
             },
             "roast": {
                 "doneness": {
-                    "blue": 50,
-                    "rare": 55,
-                    "medium": 60,
-                    "well_done": 66,
+                    "blue": 48,
+                    "rare": 52,
+                    "medium": 58,
+                    "well_done": 65,
                 },
                 "carryover_type": "beef_roast",
             },
             "rib": {
                 "doneness": {
-                    "blue": 50,
-                    "rare": 55,
-                    "medium": 60,
-                    "well_done": 66,
+                    "blue": 48,
+                    "rare": 52,
+                    "medium": 58,
+                    "well_done": 65,
                 },
                 "carryover_type": "beef_roast",
             },
@@ -115,7 +115,7 @@ FOOD_DATABASE: Final[dict] = {
         "foods": {
             "filet_mignon": {
                 "doneness": {
-                    "medium_rare": 59,
+                    "medium_rare": 57,
                     "medium": 63,
                 },
                 "carryover_type": "veal",
@@ -172,29 +172,31 @@ FOOD_DATABASE: Final[dict] = {
         "foods": {
             "rack": {
                 "doneness": {
-                    "medium": 61,
+                    "medium_rare": 55,
+                    "medium": 58,
                 },
                 "carryover_type": "lamb_other",
             },
             "saddle": {
                 "doneness": {
-                    "medium_rare": 60,
-                    "medium": 61,
+                    "medium_rare": 55,
+                    "medium": 58,
                 },
                 "carryover_type": "lamb_roast",
             },
             "leg": {
                 "doneness": {
-                    "medium_rare": 60,
-                    "medium": 61,
-                    "well_done": 66,
+                    "medium_rare": 55,
+                    "medium": 58,
+                    "well_done": 65,
                 },
                 "carryover_type": "lamb_roast",
             },
             "shoulder": {
                 "doneness": {
-                    "medium": 61,
-                    "well_done": 66,
+                    "medium_rare": 55,
+                    "medium": 58,
+                    "well_done": 65,
                 },
                 "carryover_type": "lamb_roast",
             },
@@ -333,7 +335,10 @@ FOOD_DATABASE: Final[dict] = {
         "foods": {
             "breast": {
                 "doneness": {
+                    "rare": 54,
+                    "pink": 57,
                     "medium": 59,
+                    "well_done": 68,
                 },
                 "carryover_type": "duck",
             },

@@ -27,28 +27,28 @@ export const FOOD_DATABASE = {
       filet: {
         foodKey: "food_beef_filet",
         doneness: {
-          blue: { donenessKey: "doneness_blue", temp: 50 },
-          rare: { donenessKey: "doneness_rare", temp: 55 },
-          medium: { donenessKey: "doneness_medium", temp: 60 },
-          well_done: { donenessKey: "doneness_well_done", temp: 66 }
+          blue: { donenessKey: "doneness_blue", temp: 48 },
+          rare: { donenessKey: "doneness_rare", temp: 52 },
+          medium: { donenessKey: "doneness_medium", temp: 58 },
+          well_done: { donenessKey: "doneness_well_done", temp: 65 }
         }
       },
       roast: {
         foodKey: "food_beef_roast",
         doneness: {
-          blue: { donenessKey: "doneness_blue", temp: 50 },
-          rare: { donenessKey: "doneness_rare", temp: 55 },
-          medium: { donenessKey: "doneness_medium", temp: 60 },
-          well_done: { donenessKey: "doneness_well_done", temp: 66 }
+          blue: { donenessKey: "doneness_blue", temp: 48 },
+          rare: { donenessKey: "doneness_rare", temp: 52 },
+          medium: { donenessKey: "doneness_medium", temp: 58 },
+          well_done: { donenessKey: "doneness_well_done", temp: 65 }
         }
       },
       rib: {
         foodKey: "food_beef_rib",
         doneness: {
-          blue: { donenessKey: "doneness_blue", temp: 50 },
-          rare: { donenessKey: "doneness_rare", temp: 55 },
-          medium: { donenessKey: "doneness_medium", temp: 60 },
-          well_done: { donenessKey: "doneness_well_done", temp: 66 }
+          blue: { donenessKey: "doneness_blue", temp: 48 },
+          rare: { donenessKey: "doneness_rare", temp: 52 },
+          medium: { donenessKey: "doneness_medium", temp: 58 },
+          well_done: { donenessKey: "doneness_well_done", temp: 65 }
         }
       },
       chuck_roast: {
@@ -115,7 +115,7 @@ export const FOOD_DATABASE = {
       filet_mignon: {
         foodKey: "food_veal_filet_mignon",
         doneness: {
-          medium_rare: { donenessKey: "doneness_medium_rare", temp: 59 },
+          medium_rare: { donenessKey: "doneness_medium_rare", temp: 57 },
           medium: { donenessKey: "doneness_medium", temp: 63 }
         }
       },
@@ -173,29 +173,31 @@ export const FOOD_DATABASE = {
       rack: {
         foodKey: "food_lamb_rack",
         doneness: {
-          medium: { donenessKey: "doneness_medium", temp: 61 }
+          medium_rare: { donenessKey: "doneness_medium_rare", temp: 55 },
+          medium: { donenessKey: "doneness_medium", temp: 58 }
         }
       },
       saddle: {
         foodKey: "food_lamb_saddle",
         doneness: {
-          medium_rare: { donenessKey: "doneness_medium_rare", temp: 60 },
-          medium: { donenessKey: "doneness_medium", temp: 61 }
+          medium_rare: { donenessKey: "doneness_medium_rare", temp: 55 },
+          medium: { donenessKey: "doneness_medium", temp: 58 }
         }
       },
       leg: {
         foodKey: "food_lamb_leg",
         doneness: {
-          medium_rare: { donenessKey: "doneness_medium_rare", temp: 60 },
-          medium: { donenessKey: "doneness_medium", temp: 61 },
-          well_done: { donenessKey: "doneness_well_done", temp: 66 }
+          medium_rare: { donenessKey: "doneness_medium_rare", temp: 55 },
+          medium: { donenessKey: "doneness_medium", temp: 58 },
+          well_done: { donenessKey: "doneness_well_done", temp: 65 }
         }
       },
       shoulder: {
         foodKey: "food_lamb_shoulder",
         doneness: {
-          medium: { donenessKey: "doneness_medium", temp: 61 },
-          well_done: { donenessKey: "doneness_well_done", temp: 66 }
+          medium_rare: { donenessKey: "doneness_medium_rare", temp: 55 },
+          medium: { donenessKey: "doneness_medium", temp: 58 },
+          well_done: { donenessKey: "doneness_well_done", temp: 65 }
         }
       },
       chops: {
@@ -337,7 +339,10 @@ export const FOOD_DATABASE = {
       breast: {
         foodKey: "food_duck_breast",
         doneness: {
-          medium: { donenessKey: "doneness_medium", temp: 59 }
+          rare: { donenessKey: "doneness_rare", temp: 54 },
+          pink: { donenessKey: "doneness_pink", temp: 57 },
+          medium: { donenessKey: "doneness_medium", temp: 59 },
+          well_done: { donenessKey: "doneness_well_done", temp: 68 }
         }
       },
       thigh: {
