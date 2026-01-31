@@ -44,6 +44,7 @@ async def async_setup_entry(
         AssistantCookerStateSensor(coordinator),
         AssistantCookerProbeTempSensor(coordinator),
         AssistantCookerTargetTempSensor(coordinator),
+        AssistantCookerWithdrawalTempSensor(coordinator),
         AssistantCookerStartTimeSensor(coordinator),
         AssistantCookerStartProbeTempSensor(coordinator),
         AssistantCookerEstimatedEndSensor(coordinator),
@@ -183,8 +184,8 @@ class AssistantCookerTargetTempSensor(AssistantCookerBaseSensor):
 
     @property
     def native_value(self) -> float | None:
-        """Return the withdrawal temperature (when to stop cooking)."""
-        return self.coordinator.data.get("withdrawal_temp")
+        """Return the target temperature (user's desired final temperature)."""
+        return self.coordinator.data.get("desired_temp")
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
@@ -194,6 +195,22 @@ class AssistantCookerTargetTempSensor(AssistantCookerBaseSensor):
             "is_manual_mode": self.coordinator.data.get("is_manual_mode"),
             "carryover_enabled": self.coordinator.data.get("carryover_enabled"),
         }
+
+
+class AssistantCookerWithdrawalTempSensor(AssistantCookerBaseSensor):
+    """Sensor for withdrawal temperature (with carryover compensation)."""
+
+    def __init__(self, coordinator: AssistantCookerCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator, "withdrawal_temp", "Withdrawal Temperature")
+        self._attr_device_class = SensorDeviceClass.TEMPERATURE
+        self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+        self._attr_icon = "mdi:thermometer-alert"
+
+    @property
+    def native_value(self) -> float | None:
+        """Return the withdrawal temperature (when to actually remove food)."""
+        return self.coordinator.data.get("withdrawal_temp")
 
 
 class AssistantCookerStartTimeSensor(AssistantCookerBaseSensor):

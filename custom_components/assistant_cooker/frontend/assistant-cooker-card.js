@@ -11,7 +11,7 @@ import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
 import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.44";
+const CARD_VERSION = "0.0.45";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
@@ -109,6 +109,7 @@ class AssistantCookerCard extends HTMLElement {
       state: `sensor.${p}_state`,
       probe_temp: `sensor.${p}_probe_temperature`,
       target_temp: `sensor.${p}_target_temperature`,
+      withdrawal_temp: `sensor.${p}_withdrawal_temperature`,
       progress: `sensor.${p}_progress`,
       ambient_temp: `sensor.${p}_ambient_temperature`,
       remaining_time: `sensor.${p}_remaining_time`,
@@ -299,10 +300,11 @@ class AssistantCookerCard extends HTMLElement {
       attrs.disconnect_duration
     );
     
-    // Update settings
+    // Update settings - use target_temp entity (now returns desired_temp)
+    const targetTempState = this._stateManager.getNumericState(this._entities.target_temp);
     this._updateSettings(
-      attrs.target_temp,
-      attrs.manual_mode,
+      targetTempState,
+      attrs.is_manual_mode,
       attrs.manual_temp_memory,
       attrs.carryover_enabled,
       state
