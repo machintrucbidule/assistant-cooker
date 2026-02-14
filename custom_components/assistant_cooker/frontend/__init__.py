@@ -26,7 +26,7 @@ class JSModuleRegistration:
         """Register frontend resources."""
         await self._async_register_path()
         # Only register modules if Lovelace is in storage mode
-        if self.lovelace and self.lovelace.mode == "storage":
+        if self.lovelace and getattr(self.lovelace, "mode", None) == "storage":
             await self._async_wait_for_lovelace_resources()
         else:
             _LOGGER.debug(
@@ -112,7 +112,7 @@ class JSModuleRegistration:
 
     async def async_unregister(self) -> None:
         """Remove Lovelace resources from this integration."""
-        if self.lovelace and self.lovelace.mode == "storage":
+        if self.lovelace and getattr(self.lovelace, "mode", None) == "storage":
             for module in JSMODULES:
                 url = f"{URL_BASE}/{module['filename']}"
                 resources = [

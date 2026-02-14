@@ -1,5 +1,5 @@
 /**
- * Assistant Cooker Card v0.0.39
+ * Assistant Cooker Card
  * Modular architecture with separate modules for state, rendering, events, and charting
  */
 import { StateManager } from './modules/state-manager.js';
@@ -11,7 +11,7 @@ import { FOOD_DATABASE } from './data/food-database.js';
 import { translations as enTranslations } from './translations/en.js';
 import './assistant-cooker-card-editor.js';
 
-const CARD_VERSION = "0.0.45";
+const CARD_VERSION = "0.0.46";
 
 class AssistantCookerCard extends HTMLElement {
   constructor() {
